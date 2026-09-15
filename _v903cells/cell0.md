@@ -1,7 +1,7 @@
 # V9.03 -- N27 collective MC at B = 500 G
 
-Final benchmark branch after V9.02 indicated that dipole unlocking can make
-nonzero beta competitive.
+Local-delta Metropolis-Hastings sampling of coupled mechanical and magnetic
+degrees of freedom. MC cycles are sampling steps, not physical time.
 
 Default settings:
 
@@ -20,8 +20,15 @@ Default settings:
   the tilted candidates.
 - default random seed: `DEFAULT_SEED = 1`, editable in the first code cell.
 
-The notebook now separates local cube rocking from coherent cube-body tilt. It
-records the mean local cube `[111]` angle, the coherent cube-body `[111]` axis
-tilt/order, and an independent superlattice/chain tilt from cube-center
-geometry. The reported SL diagnostic is the PCA axis of all centers. The goal
-is timing and a first N27 stability check, not final statistics.
+Body tilt measures body [111] relative to the field. Local beta measures the
+magnetic dipole relative to its own body [111], using a directed 0-180 degree
+angle. SL tilt uses PCA only. Body-SL mismatch is the signed difference of the
+two tilts. The true axis separation is recorded separately.
+
+Each cycle now includes five complete random-order magnetic sweeps. This is a
+provisional setting. The optional 1/5/10-sweep pilot compares diagnostic quality
+and effective samples per second without changing production settings.
+
+The optional multi-chain experiment crosses three initial structures with four
+seeds. It reports rank-normalized split R-hat, bulk/tail/mean ESS and MCSE of the
+mean. Short or frozen chains are flagged rather than declared converged.

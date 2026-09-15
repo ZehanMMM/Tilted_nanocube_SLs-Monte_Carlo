@@ -16,10 +16,29 @@ FULL_RUN_SEED = DEFAULT_SEED
 N_CYCLES = 2000
 N_EQUIL = 500
 RUN_MULTI_SEED_SCAN = False
-MULTI_SEEDS = [DEFAULT_SEED]  # e.g. [1, 2, 3]
+MULTI_SEEDS = [DEFAULT_SEED + i for i in range(4)]
+MULTI_STARTS = ["compact_aligned", "compact_tilted", "expanded_tilted"]
+# Only initial conditions change. A_NM and all Hamiltonian parameters stay fixed.
+INITIAL_STRUCTURES = {
+    "compact_aligned": {"tilt_deg": 0.0, "spacing_scale": 1.0},
+    "compact_tilted": {"tilt_deg": 20.0, "spacing_scale": 1.0},
+    "expanded_tilted": {"tilt_deg": 40.0, "spacing_scale": 1.08},
+}
 MULTI_CYCLES = N_CYCLES
 MULTI_EQUIL = N_EQUIL
 MULTI_RESEED_INITIAL_STATE = True
+RUN_MAGNETIC_PILOT = False
+MAGNETIC_SWEEP_CANDIDATES = [1, 5, 10]
+PILOT_CYCLES = 300
+PILOT_EQUIL = 100
+DIAGNOSTIC_MIN_DRAWS = 100  # per chain after warm-up, not a convergence guarantee
+DIAGNOSTIC_RHAT_MAX = 1.01
+DIAGNOSTIC_ESS_MIN = 400
+DIAGNOSTIC_MCSE_TARGETS = {"body_tilt_deg": 0.5, "sl_pca_tilt_deg": 0.5}
+SAVE_CHAIN_DATA = True
+MULTI_DATA_PREFIX = "V903_MultiChain"
+BENCH_CYCLES = 100
+BENCH_EQUIL = 20
 MOVE_POSITIONS = True
 MOVE_ORIENTATIONS = True
 SHOW_PROGRESS_BARS = True
@@ -115,7 +134,7 @@ RUN_LABEL = RUN_CONFIG["label"]
 ANIS_MODEL = "cubic_first_raw"
 DIPOLE_INIT_MODE = "random"  # random, field, easy
 
-N_MAG_PER_CYCLE = 1
+N_MAG_PER_CYCLE = 5  # complete random-order sweeps, provisional until pilot comparison
 TRANS_STEP_NM = 0.03
 ROT_STEP_DEG = 2.0
 DIP_STEP_RAD = 0.30

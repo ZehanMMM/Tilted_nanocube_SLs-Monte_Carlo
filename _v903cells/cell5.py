@@ -25,20 +25,21 @@ print("V9.03 N27 run summary")
 print(f"  init/full seed = {INIT_SEED} / {FULL_RUN_SEED}")
 print(f"  elapsed = {elapsed:.1f} s = {elapsed/60:.2f} min")
 print(f"  <E>     = {res['E_mean']:+.3f} kBT")
-print(f"  local cube-body <beta> = {res['beta_mean']:.3f} deg")
+print(f"  local dipole-body <beta> = {res['beta_mean']:.3f} deg")
 print(f"  coherent cube-body tilt = {res['body_tilt_mean']:.3f} deg "
       f"(body order={res['body_order_mean']:.3f})")
-print(f"  coherent body-SL mismatch = {res['body_sl_mismatch_mean']:.3f} deg")
+print(f"  body-SL tilt difference = {res['body_sl_mismatch_mean']:.3f} deg")
 print(f"  SL tilt PCA      = {res['sl_pca_tilt_mean']:.3f} deg "
       f"(order={res['sl_pca_order_mean']:.3f})")
 print(f"  surface gap min/p05 = {res['gap_min_mean']:.3f} / {res['gap_p05_mean']:.3f} nm")
-print(f"  <mu.B>  = {res['muB_mean']:.3f}")
+print(f"  <|mu.B|> = {res['muB_mean']:.3f}")
+print(f"  signed <mu.B> = {res['magnetization_mean']:.3f}")
 print(f"  acceptance mech/cotilt/gamma/dip = {res['acc_mech']:.3f} / "
       f"{res['acc_cotilt']:.3f} / {res['acc_gamma']:.3f} / {res['acc_dip']:.3f}")
 
 full_report_rows = [
     {
-        "stat": "equil_mean",
+        "stat": "postwarm_mean",
         "E_kBT": res["E_mean"],
         "local_beta": res["beta_mean"],
         "body_tilt": res["body_tilt_mean"],
@@ -74,9 +75,9 @@ ax.grid(alpha=0.3)
 ax = axes[0, 1]
 ax.plot(res["traj_body_tilt"], lw=0.9, color="teal", label="coherent cube-body [111]")
 ax.plot(res["traj_sl_pca_tilt"], lw=0.9, color="darkorange", label="SL PCA")
-ax.plot(res["traj_beta"], lw=0.6, color="teal", alpha=0.35, ls=":", label="mean local beta")
+ax.plot(res["traj_beta"], lw=0.6, color="teal", alpha=0.35, ls=":", label="dipole-body beta")
 ax.axvline(N_EQUIL, color="crimson", ls="--", lw=1)
-ax.set(xlabel="MC cycle", ylabel="tilt vs lab-x (deg)", title="coherent body vs SL tilt")
+ax.set(xlabel="MC cycle", ylabel="angle (deg)", title="coherent body vs SL tilt")
 ax.legend(frameon=False, fontsize=8)
 ax.grid(alpha=0.3)
 
@@ -98,7 +99,8 @@ ax.grid(alpha=0.3)
 
 fig.suptitle(f"V9.03 N27 collective MC, B=500 G, cubic-first; {RUN_LABEL}", y=1.02)
 plt.tight_layout()
-plt.savefig(FULL_RUN_FIG_PDF, bbox_inches="tight", dpi=150)
+if SAVE_REPORT_PDFS:
+    fig.savefig(FULL_RUN_FIG_PDF, bbox_inches="tight", dpi=150)
 
 if SAVE_REPORT_PDFS:
     with PdfPages(FULL_RUN_REPORT_PDF) as pdf:
@@ -113,7 +115,7 @@ if SAVE_REPORT_PDFS:
             f"acc_mech/cotilt/gamma/dip = {res['acc_mech']:.6g} / "
             f"{res['acc_cotilt']:.6g} / {res['acc_gamma']:.6g} / {res['acc_dip']:.6g}",
             "",
-            "Values marked equil_mean are averaged over cycles N_EQUIL..N_CYCLES-1.",
+            "Values marked postwarm_mean are averaged over cycles N_EQUIL..N_CYCLES-1.",
             "Values marked final are the last recorded cycle.",
         ]
         save_text_page(pdf, "V9.03 Full Run Report", lines)

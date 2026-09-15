@@ -164,7 +164,7 @@ class CollectiveNanocubeMC:
         raise ValueError("anis_model must be none, uniaxial111, cubic_first_raw, or cubic_first_scaled")
 
     def energy_full_cluster(self, pos, Qs, mu_hats, a_nm=None, anis_model=None,
-                            vdw_cut_factor=2.2, return_pairs=False):
+                            vdw_cut_factor=2.2, return_pairs=False, include_vdw=True):
         N = len(pos)
         Ez = -self.mu_mag * float(np.sum(mu_hats @ self.Bvec))
         Ea = self.anisotropy_energy(Qs, mu_hats, anis_model)
@@ -194,7 +194,7 @@ class CollectiveNanocubeMC:
                 if gap < self.gap_m:
                     Ester += 0.5 * self.k_stiff * (self.gap_m - gap) ** 2
 
-                use_vdw = a_m is None or d < vdw_cut_factor * a_m
+                use_vdw = include_vdw and (a_m is None or d < vdw_cut_factor * a_m)
                 if use_vdw:
                     if vox is None:
                         vox = [self.vox_ref @ Q.T + p for Q, p in zip(Qs, pos)]
@@ -255,6 +255,20 @@ class CollectiveNanocubeMC:
                                   pos[j], Qs[j], mu_hats[j],
                                   a_nm=a_nm, include_vdw=include_vdw)
         return E
+
+    def local_magnetic_energy(self, i, pos, Qs, mu_hats, anis_model=None):
+        """Terms changed by one dipole move, with no geometry or vdW work."""
+        mask = np.arange(len(pos)) != i
+        rij = pos[mask] - pos[i]
+        d = np.linalg.norm(rij, axis=1)
+        if np.any(d < 1e-15):
+            raise ValueError("Coincident centers are not valid magnetic states.")
+        rhat = rij / d[:, None]
+        uj = mu_hats[mask]
+        ui = mu_hats[i]
+        pairs = (uj @ ui - 3.0 * (rhat @ ui) * np.sum(uj * rhat, axis=1)) / d**3
+        return (self.single_energy(Qs[i], ui, anis_model)
+                + self.Cmag * self.mu_mag**2 * np.sum(pairs))
 
     def magnetic_energy_only(self, Qs, mu_hats, anis_model=None):
         Ez = -self.mu_mag * float(np.sum(mu_hats @ self.Bvec))
@@ -350,8 +364,15 @@ class CollectiveNanocubeMC:
         return res.x, float(res.fun)
 
     def beta_angles(self, Qs):
+        """Local body [111] versus field angles, retained for body diagnostics."""
         easy = np.einsum("nij,j->ni", Qs, self.e111)
         dots = np.clip(easy @ self.field_hat, -1.0, 1.0)
+        return np.degrees(np.arccos(dots))
+
+    def local_beta_angles(self, Qs, mu_hats):
+        """Directed dipole versus its own body [111] angle, in [0, 180] degrees."""
+        easy = np.einsum("nij,j->ni", Qs, self.e111)
+        dots = np.clip(np.sum(easy * mu_hats, axis=1), -1.0, 1.0)
         return np.degrees(np.arccos(dots))
 
     def axial_tilt_deg(self, axis):
@@ -429,6 +450,7 @@ class CollectiveNanocubeMC:
             for e in easy
         ]
         return {
+            "tilt_difference_deg": body["coherent_tilt_deg"] - sl["pca_tilt_deg"],
             "coherent_pca_deg": self.axis_angle_deg(
                 body["coherent_axis"], sl["pca_axis"], axial=True
             ),
@@ -472,8 +494,18 @@ class CollectiveNanocubeMC:
 print("CollectiveNanocubeMC defined.")
 
 
-def metropolis_accept(dE, kT, rng):
-    return dE <= 0.0 or rng.random() < np.exp(-dE / kT)
+def metropolis_hastings_accept(dE, kT, rng, log_q_reverse_minus_forward=0.0):
+    """MH in log space. Current symmetric proposals have log proposal ratio 0."""
+    if not np.isfinite(kT) or kT <= 0:
+        raise ValueError("kT must be positive and finite.")
+    log_alpha = -dE / kT + log_q_reverse_minus_forward
+    if np.isnan(log_alpha):
+        raise ValueError("Undefined MH acceptance ratio.")
+    if log_alpha >= 0:
+        return True
+    if np.isneginf(log_alpha):
+        return False
+    return np.log(max(rng.random(), np.finfo(float).tiny)) < log_alpha
 
 
 def rotate_vector_small(v, max_angle_rad, rng):
@@ -543,6 +575,8 @@ def progress_range(n, enabled=False, desc="MC", backend="text", every=50):
 
 def report_value(value):
     if isinstance(value, (float, np.floating)):
+        if not np.isfinite(value):
+            return "N/A"
         return f"{float(value):.6g}"
     return str(value)
 
@@ -586,7 +620,8 @@ def base_report_lines():
         f"{GLOBAL_COTILT_STEP_DEG} deg",
         f"GLOBAL_GAMMA           = {GLOBAL_GAMMA_MOVES_PER_CYCLE} moves/cycle, "
         f"{GLOBAL_GAMMA_STEP_DEG} deg",
-        f"N_MAG_PER_CYCLE        = {N_MAG_PER_CYCLE}",
+        f"N_MAG_PER_CYCLE        = {N_MAG_PER_CYCLE} complete sweeps",
+        "SAMPLER                = Metropolis-Hastings, symmetric proposals",
         f"TRANS_STEP_NM          = {TRANS_STEP_NM}",
         f"ROT_STEP_DEG           = {ROT_STEP_DEG}",
         f"DIP_STEP_RAD           = {DIP_STEP_RAD}",
@@ -596,7 +631,7 @@ def base_report_lines():
 
 
 def run_local_collective_mc(model, state, a_nm, n_cycles=500, n_equil=150,
-                            n_mag_per_cycle=2, trans_step_nm=0.03,
+                            n_mag_per_cycle=5, trans_step_nm=0.03,
                             rot_step_deg=2.0, dip_step_rad=0.30,
                             anis_model="cubic_first_raw", include_vdw=True,
                             move_positions=True, move_orientations=True,
@@ -605,44 +640,59 @@ def run_local_collective_mc(model, state, a_nm, n_cycles=500, n_equil=150,
                             show_progress=False, progress_label="MC",
                             progress_backend="text", progress_every=50,
                             rng=rng):
-    """Local-delta MC for N=27 scale clusters."""
+    """Local-delta MH with fixed symmetric proposals and complete magnetic sweeps."""
+    counts = [n_cycles, n_equil, n_mag_per_cycle, n_cotilt_per_cycle, n_gamma_per_cycle]
+    if any(not isinstance(v, (int, np.integer)) or v < 0 for v in counts):
+        raise ValueError("Cycle and move counts must be nonnegative integers.")
+    if n_cycles < 1 or n_equil >= n_cycles:
+        raise ValueError("Require 0 <= n_equil < n_cycles.")
+    if any(not np.isfinite(v) or v < 0 for v in
+           [trans_step_nm, rot_step_deg, dip_step_rad, cotilt_step_deg, gamma_step_deg]):
+        raise ValueError("Proposal step sizes must be finite and nonnegative.")
+    cotilt_count = n_cotilt_per_cycle if move_positions and move_orientations else 0
+    gamma_count = n_gamma_per_cycle if move_orientations else 0
     idx = state["idx"].copy()
     pos = state["pos"].copy()
     Qs = state["Q"].copy()
     mu = state["mu"].copy()
     N = len(pos)
     center = 0
-    E = model.energy_full_cluster(pos, Qs, mu, a_nm=a_nm, anis_model=anis_model)["Total"]
+    E = model.energy_full_cluster(pos, Qs, mu, a_nm=a_nm, anis_model=anis_model,
+                                  include_vdw=include_vdw)["Total"]
 
     traj_E = np.empty(n_cycles)
     traj_beta = np.empty(n_cycles)
     traj_body_tilt = np.empty(n_cycles)
     traj_body_order = np.empty(n_cycles)
     traj_body_sl_mismatch = np.empty(n_cycles)
+    traj_body_sl_axis_angle = np.empty(n_cycles)
     traj_sl_pca_tilt = np.empty(n_cycles)
     traj_sl_pca_order = np.empty(n_cycles)
     traj_gap_min = np.empty(n_cycles)
     traj_gap_p05 = np.empty(n_cycles)
     traj_muB = np.empty(n_cycles)
+    traj_magnetization = np.empty(n_cycles)
+    traj_rg_nm = np.empty(n_cycles)
     acc_m = try_m = acc_c = try_c = acc_g = try_g = acc_d = try_d = 0
 
     for c in progress_range(n_cycles, enabled=show_progress, desc=progress_label,
                             backend=progress_backend, every=progress_every):
         for i in rng.permutation(np.arange(N)):
-            if i == center:
+            # Fix the central position, but still sample its body orientation.
+            if not move_orientations and (not move_positions or i == center):
                 continue
             old_pos = pos[i].copy()
             old_Q = Qs[i].copy()
             old_local = model.local_energy(i, pos, Qs, mu, a_nm=a_nm,
                                            anis_model=anis_model, include_vdw=include_vdw)
-            if move_positions:
+            if move_positions and i != center:
                 pos[i] = pos[i] + random_unit_vector(1, rng) * rng.uniform(0, trans_step_nm) * 1e-9
             if move_orientations:
                 Qs[i] = rotate_body_small(Qs[i], rot_step_deg, rng)
             new_local = model.local_energy(i, pos, Qs, mu, a_nm=a_nm,
                                            anis_model=anis_model, include_vdw=include_vdw)
             dE = new_local - old_local
-            if metropolis_accept(dE, model.kT, rng):
+            if metropolis_hastings_accept(dE, model.kT, rng):
                 E += dE
                 acc_m += 1
             else:
@@ -650,16 +700,17 @@ def run_local_collective_mc(model, state, a_nm, n_cycles=500, n_equil=150,
                 Qs[i] = old_Q
             try_m += 1
 
-        for _ in range(n_cotilt_per_cycle):
+        for _ in range(cotilt_count):
             old_pos = pos.copy()
             old_Qs = Qs.copy()
             new_pos, new_Qs = rotate_cluster_small(
                 pos, Qs, pos[center].copy(), cotilt_step_deg, rng
             )
             new_E = model.energy_full_cluster(new_pos, new_Qs, mu, a_nm=a_nm,
-                                              anis_model=anis_model)["Total"]
+                                              anis_model=anis_model,
+                                              include_vdw=include_vdw)["Total"]
             dE = new_E - E
-            if metropolis_accept(dE, model.kT, rng):
+            if metropolis_hastings_accept(dE, model.kT, rng):
                 pos = new_pos
                 Qs = new_Qs
                 E = new_E
@@ -669,13 +720,14 @@ def run_local_collective_mc(model, state, a_nm, n_cycles=500, n_equil=150,
                 Qs = old_Qs
             try_c += 1
 
-        for _ in range(n_gamma_per_cycle):
+        for _ in range(gamma_count):
             old_Qs = Qs.copy()
             new_Qs = rotate_bodies_about_coherent_axis(Qs, model, gamma_step_deg, rng)
             new_E = model.energy_full_cluster(pos, new_Qs, mu, a_nm=a_nm,
-                                              anis_model=anis_model)["Total"]
+                                              anis_model=anis_model,
+                                              include_vdw=include_vdw)["Total"]
             dE = new_E - E
-            if metropolis_accept(dE, model.kT, rng):
+            if metropolis_hastings_accept(dE, model.kT, rng):
                 Qs = new_Qs
                 E = new_E
                 acc_g += 1
@@ -683,36 +735,37 @@ def run_local_collective_mc(model, state, a_nm, n_cycles=500, n_equil=150,
                 Qs = old_Qs
             try_g += 1
 
-        for _ in range(n_mag_per_cycle * N):
-            i = int(rng.integers(N))
-            old = mu[i].copy()
-            old_local = model.local_energy(i, pos, Qs, mu, a_nm=a_nm,
-                                           anis_model=anis_model, include_vdw=False)
-            mu[i] = rotate_vector_small(mu[i], dip_step_rad, rng)
-            new_local = model.local_energy(i, pos, Qs, mu, a_nm=a_nm,
-                                           anis_model=anis_model, include_vdw=False)
-            dE = new_local - old_local
-            if metropolis_accept(dE, model.kT, rng):
-                E += dE
-                acc_d += 1
-            else:
-                mu[i] = old
-            try_d += 1
+        for _ in range(n_mag_per_cycle):
+            for i in rng.permutation(N):
+                old = mu[i].copy()
+                old_local = model.local_magnetic_energy(i, pos, Qs, mu, anis_model)
+                mu[i] = rotate_vector_small(mu[i], dip_step_rad, rng)
+                new_local = model.local_magnetic_energy(i, pos, Qs, mu, anis_model)
+                dE = new_local - old_local
+                if metropolis_hastings_accept(dE, model.kT, rng):
+                    E += dE
+                    acc_d += 1
+                else:
+                    mu[i] = old
+                try_d += 1
 
         traj_E[c] = E / model.kT
-        traj_beta[c] = np.mean(model.beta_angles(Qs))
+        traj_beta[c] = np.mean(model.local_beta_angles(Qs, mu))
         body = model.body_axis_metrics(Qs)
         sl = model.sl_tilt_metrics(pos)
         mismatch = model.body_sl_mismatch_deg(pos, Qs)
         gaps = model.surface_gap_stats(pos, Qs)
         traj_body_tilt[c] = body["coherent_tilt_deg"]
         traj_body_order[c] = body["vector_order"]
-        traj_body_sl_mismatch[c] = mismatch["coherent_pca_deg"]
+        traj_body_sl_mismatch[c] = mismatch["tilt_difference_deg"]
+        traj_body_sl_axis_angle[c] = mismatch["coherent_pca_deg"]
         traj_sl_pca_tilt[c] = sl["pca_tilt_deg"]
         traj_sl_pca_order[c] = sl["pca_order"]
         traj_gap_min[c] = gaps["min_gap_nm"]
         traj_gap_p05[c] = gaps["p05_gap_nm"]
         traj_muB[c] = np.mean(np.abs(mu @ model.Bhat))
+        traj_magnetization[c] = np.mean(mu @ model.Bhat)
+        traj_rg_nm[c] = np.sqrt(np.mean(np.sum((pos - pos.mean(axis=0))**2, axis=1))) * 1e9
 
     eq = slice(n_equil, None)
     return {
@@ -722,11 +775,16 @@ def run_local_collective_mc(model, state, a_nm, n_cycles=500, n_equil=150,
         "body_tilt_mean": float(np.mean(traj_body_tilt[eq])),
         "body_order_mean": float(np.mean(traj_body_order[eq])),
         "body_sl_mismatch_mean": float(np.mean(traj_body_sl_mismatch[eq])),
+        "body_sl_axis_angle_mean": float(np.mean(traj_body_sl_axis_angle[eq])),
         "sl_pca_tilt_mean": float(np.mean(traj_sl_pca_tilt[eq])),
         "sl_pca_order_mean": float(np.mean(traj_sl_pca_order[eq])),
         "gap_min_mean": float(np.mean(traj_gap_min[eq])),
         "gap_p05_mean": float(np.mean(traj_gap_p05[eq])),
         "muB_mean": float(np.mean(traj_muB[eq])),
+        "magnetization_mean": float(np.mean(traj_magnetization[eq])),
+        "rg_nm_mean": float(np.mean(traj_rg_nm[eq])),
+        "attempts": {"mechanical": try_m, "cotilt": try_c, "gamma": try_g, "dipole": try_d},
+        "n_cycles": n_cycles, "n_equil": n_equil, "n_mag_per_cycle": n_mag_per_cycle,
         "acc_mech": acc_m / max(try_m, 1),
         "acc_cotilt": acc_c / max(try_c, 1),
         "acc_gamma": acc_g / max(try_g, 1),
@@ -735,11 +793,14 @@ def run_local_collective_mc(model, state, a_nm, n_cycles=500, n_equil=150,
         "traj_body_tilt": traj_body_tilt,
         "traj_body_order": traj_body_order,
         "traj_body_sl_mismatch": traj_body_sl_mismatch,
+        "traj_body_sl_axis_angle": traj_body_sl_axis_angle,
         "traj_sl_pca_tilt": traj_sl_pca_tilt,
         "traj_sl_pca_order": traj_sl_pca_order,
         "traj_gap_min_nm": traj_gap_min,
         "traj_gap_p05_nm": traj_gap_p05,
         "traj_muB": traj_muB,
+        "traj_magnetization": traj_magnetization,
+        "traj_rg_nm": traj_rg_nm,
     }
 
 

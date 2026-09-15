@@ -10,10 +10,10 @@ OUT = HERE.parent / "V9.03_N27_500G.ipynb"
 cells = []
 for path in sorted(HERE.glob("cell*.*")):
     if path.suffix == ".md":
-        cells.append({"cell_type": "markdown", "metadata": {},
+        cells.append({"cell_type": "markdown", "id": path.name.replace(".", "-"), "metadata": {},
                       "source": path.read_text(encoding="utf-8").splitlines(True)})
     elif path.suffix == ".py":
-        cells.append({"cell_type": "code", "execution_count": None,
+        cells.append({"cell_type": "code", "id": path.name.replace(".", "-"), "execution_count": None,
                       "metadata": {}, "outputs": [],
                       "source": path.read_text(encoding="utf-8").splitlines(True)})
 
