@@ -1,0 +1,8 @@
+{
+  "completed_utc": "2026-09-16T01:48:10.085256+00:00",
+  "jobs": 13,
+  "cycles_per_chain": 2000,
+  "warmup_per_chain": 500,
+  "wall_sec_this_invocation": 1512.86580889998,
+  "all_pooled_diagnostic_checks_passed": false
+}

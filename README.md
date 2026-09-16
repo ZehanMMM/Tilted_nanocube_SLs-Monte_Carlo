@@ -134,6 +134,34 @@ python -m unittest discover -s tests -v
 The tests use short N27 chains and synthetic diagnostic fixtures. They do not
 run the 2000-cycle experiment or the full multi-chain/pilot configurations.
 
+## Full Experiment with Checkpoints
+
+Run the default single chain and all 12 multi-start chains in separate processes:
+
+```bash
+python scripts/run_sampling_experiment.py --output outputs/my_full_run --cycles 2000 --equil 500 --workers 4
+```
+
+Use a new output directory to preserve previous results. Each completed chain
+is saved immediately as NPZ and JSON, together with a progress log and energy
+consistency checks. A manifest records the source hashes, base commit and chain
+configuration. Resume an interrupted run with the same command plus `--resume`.
+Resume requires identical source files and cycle settings and skips completed
+chains. The final report pools only the 12 multi-start chains, excluding the
+separate single-chain reproduction.
+
+All chains use five magnetic sweeps per cycle. This command does not run the
+magnetic-sweep optimization pilot. Reported ESS/second uses the sum of per-chain
+sampling times, including warm-up. Elapsed wall time is recorded separately.
+
+The completed [2000-cycle experiment](outputs/sampling_2000cycles_20260915/RESULTS_ZH.md)
+contains one default single-chain reproduction and 12 multi-start chains, each
+with 500 warm-up cycles. All trajectories and estimated diagnostics are finite.
+None of the 12 pooled observables passes the predefined diagnostic checks.
+Body and SL tilt rank R-hat values are 1.830 and 1.807, with bulk ESS of 17.4
+and 17.7. Expanded starts retain substantial drift after warm-up. These outputs
+document incomplete mixing and must not be interpreted as equilibrium estimates.
+
 ## Rebuilding the Notebook
 
 From the repository root, run:
@@ -159,6 +187,8 @@ reparameterized. The current cluster model has no explicit finite container.
 Diagnostics do not establish unrestricted assembly equilibrium or justify
 interpreting MC cycles as physical time.
 
-The PDFs under `outputs/` and the Supporting Information document describe the
-historical 16 nm calculation. They have not been regenerated for this sampling
-update, and their old angle labels must be interpreted accordingly.
+The older PDFs directly under `outputs/` and the Supporting Information document
+describe the historical 16 nm calculation. They have not been regenerated for
+this sampling update, and their old angle labels must be interpreted accordingly.
+The reports under `outputs/sampling_2000cycles_20260915/` use the current angle
+definitions and include the completed single-chain and multi-chain experiment.

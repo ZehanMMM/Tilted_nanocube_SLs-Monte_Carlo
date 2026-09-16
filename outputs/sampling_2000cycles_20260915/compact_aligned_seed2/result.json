@@ -1,0 +1,125 @@
+{
+  "scalars": {
+    "E_mean": -637.7220473989158,
+    "beta_mean": 13.807152332276711,
+    "body_tilt_mean": 4.713692111518984,
+    "body_order_mean": 0.9935100754682693,
+    "body_sl_mismatch_mean": -0.3179558336557515,
+    "body_sl_axis_angle_mean": 0.7368327563883764,
+    "sl_pca_tilt_mean": 5.031647945174735,
+    "sl_pca_order_mean": 0.26683017056328456,
+    "gap_min_mean": 1.805370006522439,
+    "gap_p05_mean": 1.9257454251456527,
+    "muB_mean": 0.9600515798180729,
+    "magnetization_mean": 0.9600515798180729,
+    "rg_nm_mean": 29.991732778008558,
+    "attempts": {
+      "mechanical": 54000,
+      "cotilt": 2000,
+      "gamma": 2000,
+      "dipole": 270000
+    },
+    "n_cycles": 2000,
+    "n_equil": 500,
+    "n_mag_per_cycle": 5,
+    "acc_mech": 0.5965555555555555,
+    "acc_cotilt": 0.9445,
+    "acc_gamma": 0.24,
+    "acc_dip": 0.7161555555555555
+  },
+  "run": {
+    "kind": "multi",
+    "row": {
+      "chain": 0,
+      "start": "compact_aligned",
+      "seed": 2,
+      "init_entropy": [
+        2,
+        0,
+        0
+      ],
+      "sample_entropy": [
+        2,
+        0,
+        1
+      ],
+      "elapsed_sec": 427.94145759986714,
+      "E_mean": -637.7220473989158,
+      "local_beta": 13.807152332276711,
+      "body_tilt": 4.713692111518984,
+      "SL_PCA": 5.031647945174735,
+      "body_SL_difference": -0.3179558336557515,
+      "magnetization": 0.9600515798180729,
+      "acc_mech": 0.5965555555555555,
+      "acc_cotilt": 0.9445,
+      "acc_gamma": 0.24,
+      "acc_dip": 0.7161555555555555
+    },
+    "metadata": {
+      "schema_version": 2,
+      "arviz_version": "0.22.0",
+      "numpy_version": "2.4.4",
+      "sampler": "Metropolis-Hastings",
+      "proposal_log_ratio": 0.0,
+      "magnetic_update": "random permutation per sweep",
+      "n_cycles": 2000,
+      "n_equil": 500,
+      "elapsed_sec": 427.94637290015817,
+      "sampling": {
+        "n_mag_per_cycle": 5,
+        "trans_step_nm": 0.03,
+        "rot_step_deg": 2.0,
+        "dip_step_rad": 0.3,
+        "anis_model": "cubic_first_raw",
+        "include_vdw": true,
+        "move_positions": true,
+        "move_orientations": true,
+        "n_cotilt_per_cycle": 1,
+        "cotilt_step_deg": 0.75,
+        "n_gamma_per_cycle": 1,
+        "gamma_step_deg": 2.0,
+        "show_progress": true,
+        "progress_backend": "text",
+        "progress_every": 100,
+        "n_cycles": 2000,
+        "n_equil": 500
+      },
+      "starts": {
+        "compact_aligned": {
+          "tilt_deg": 0.0,
+          "spacing_scale": 1.0
+        }
+      },
+      "seeds": [
+        2
+      ],
+      "reseed_initial_state": true,
+      "physical_parameters": {
+        "Ms": 285000,
+        "B_field": 0.05,
+        "K_ani": 20000.0,
+        "Hamaker": 2e-20,
+        "N_voxel": 4,
+        "gap_nm": 1.8,
+        "k_stiff": 100000000.0,
+        "roundness_nm": 1.5
+      },
+      "temperature_K": 298.15,
+      "L_nm": 16.0,
+      "A_nm": 21.0,
+      "alpha_deg": 74.2,
+      "phi_init_deg": 0.0,
+      "dipole_init_mode": "random",
+      "diagnostic_thresholds": {
+        "min_draws": 100,
+        "rhat_max": 1.01,
+        "ess_min": 400,
+        "mcse_targets": {
+          "body_tilt_deg": 0.5,
+          "sl_pca_tilt_deg": 0.5
+        }
+      },
+      "interpretation": "Diagnostics are conditional on the existing finite-cluster model."
+    }
+  }
+}
