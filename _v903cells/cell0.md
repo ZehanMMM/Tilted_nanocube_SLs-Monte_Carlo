@@ -25,10 +25,12 @@ magnetic dipole relative to its own body [111], using a directed 0-180 degree
 angle. SL tilt uses PCA only. Body-SL mismatch is the signed difference of the
 two tilts. The true axis separation is recorded separately.
 
-Each cycle now includes five complete random-order magnetic sweeps. This is a
-provisional setting. The optional 1/5/10-sweep pilot compares diagnostic quality
-and effective samples per second without changing production settings.
+Each cycle now includes ten complete random-order magnetic sweeps with a maximum
+dipole proposal angle of 1.60 rad. A frozen-geometry calibration selected this
+setting from the tested 1/5/10-sweep and 0.30/0.80/1.60-rad candidates. The
+optional notebook pilot remains a joint-sampling comparison and does not change
+production settings automatically.
 
-The optional multi-chain experiment crosses three initial structures with four
+The optional multi-chain experiment crosses five initial structures with four
 seeds. It reports rank-normalized split R-hat, bulk/tail/mean ESS and MCSE of the
 mean. Short or frozen chains are flagged rather than declared converged.

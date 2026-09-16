@@ -3,16 +3,17 @@
 Set all controls in the first code cell. The interaction potentials and their
 physical parameters are unchanged in this sampling update.
 
-- `N_MAG_PER_CYCLE = 5` means five complete random-order magnetic sweeps.
+- `N_MAG_PER_CYCLE = 10` means ten complete random-order magnetic sweeps. The
+  default maximum magnetic proposal angle is 1.60 rad.
 - `RUN_MAGNETIC_PILOT = True` compares `MAGNETIC_SWEEP_CANDIDATES` using a
   separate pilot. Only candidates passing all diagnostic checks are ranked by
   the smallest bulk ESS per second across monitored observables. A short pilot
   may return no recommendation. Change the production count explicitly afterward.
 - `RUN_MULTI_SEED_SCAN = True` runs every combination of `MULTI_STARTS` and
-  `MULTI_SEEDS`. Defaults produce 12 independent chains. This is opt-in work.
-- Initial conditions include aligned compact, co-tilted compact and expanded
-  co-tilted clusters. Expansion changes initial positions only, not `A_NM` or
-  the vdW cutoff. All chains use one Hamiltonian.
+  `MULTI_SEEDS`. Defaults produce 20 independent chains. This is opt-in work.
+- Initial conditions include three compact and two expanded configurations,
+  separating initial spacing from 0, 20 and 40 degree co-tilts. Expansion changes
+  initial positions only, not `A_NM` or the vdW cutoff. All chains use one Hamiltonian.
 - Each chain uses separate initialization and sampling streams derived from
   `SeedSequence([seed, structure_id, stream_id])`. The actual sequences are saved.
 
@@ -28,7 +29,8 @@ Diagnostics use unthinned post-warm-up arrays with shape `(chain, draw)`.
 They are computed both across all starts and within each start. Fewer than
 100 retained draws, constant chains, nonfinite values, high R-hat and low ESS
 are flagged. At least four chains are required to pass the diagnostic gate.
-The default ESS target is 400 and tilt MCSE targets are 0.5 degrees.
+The ESS target is the larger of 400 and 100 times the number of chains. Tilt
+MCSE targets are 0.5 degrees.
 No automatic extension or stopping rule is implied by these thresholds.
 
 Body tilt and SL PCA tilt remain on separate multi-chain figures. Raw trajectories,

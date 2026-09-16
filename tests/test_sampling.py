@@ -127,6 +127,46 @@ class SamplingTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             self.run_short(n_mag_per_cycle=1.5)
 
+    def test_single_spin_mh_matches_spherical_quadrature(self):
+        # A physical conditional target with an independent integration reference.
+        m = self.model
+        s = NS["make_initial_state"](1, "compact_tilted40")
+        s["mu"][:] = m.Bhat
+        easy = s["Q"][0] @ m.e111
+        z, weights = np.polynomial.legendre.leggauss(80)
+        phi = np.arange(128) * (2 * np.pi / 128)
+        zz, pp = np.meshgrid(z, phi, indexing="ij")
+        radius = np.sqrt(1 - zz**2)
+        directions = np.column_stack([(radius * np.cos(pp)).ravel(),
+                                      (radius * np.sin(pp)).ravel(), zz.ravel()])
+        energies = []
+        for direction in directions:
+            s["mu"][0] = direction
+            energies.append(m.local_magnetic_energy(0, s["pos"], s["Q"], s["mu"]) / m.kT)
+        energies = np.asarray(energies)
+        probability = np.repeat(weights, 128) * np.exp(-(energies - energies.min()))
+        probability /= probability.sum()
+        reference = np.array([probability @ (directions @ m.Bhat),
+                              probability @ np.degrees(np.arccos(np.clip(directions @ easy, -1, 1)))])
+        rng = np.random.default_rng(811)
+        s["mu"][0] = -m.Bhat
+        energy = m.local_magnetic_energy(0, s["pos"], s["Q"], s["mu"])
+        samples = []
+        for step in range(24000):
+            previous = s["mu"][0].copy()
+            s["mu"][0] = NS["rotate_vector_small"](previous, 0.8, rng)
+            proposed = m.local_magnetic_energy(0, s["pos"], s["Q"], s["mu"])
+            if NS["metropolis_hastings_accept"](proposed - energy, m.kT, rng):
+                energy = proposed
+            else:
+                s["mu"][0] = previous
+            if step >= 2000:
+                samples.append([s["mu"][0] @ m.Bhat,
+                                np.degrees(np.arccos(np.clip(s["mu"][0] @ easy, -1, 1)))])
+        estimate = np.mean(samples, axis=0)
+        self.assertLess(abs(estimate[0] - reference[0]), 0.008)
+        self.assertLess(abs(estimate[1] - reference[1]), 2.5)
+
     def test_initial_structures_keep_body_and_sl_aligned(self):
         states = [NS["make_initial_state"](1, name) for name in NS["MULTI_STARTS"]]
         for s in states:
@@ -139,9 +179,10 @@ class SamplingTests(unittest.TestCase):
 
     def test_ensemble_and_export(self):
         b = NS["run_chain_ensemble"](NS["MULTI_STARTS"], [1, 2], 2, 0, 1)
-        self.assertEqual(b["draws"]["energy_kBT"].shape, (6, 2))
-        self.assertEqual(len({tuple(r["sample_entropy"]) for r in b["rows"]}), 6)
-        self.assertEqual(len(b["grouped_diagnostics"]), 3)
+        count = 2 * len(NS["MULTI_STARTS"])
+        self.assertEqual(b["draws"]["energy_kBT"].shape, (count, 2))
+        self.assertEqual(len({tuple(r["sample_entropy"]) for r in b["rows"]}), count)
+        self.assertEqual(len(b["grouped_diagnostics"]), len(NS["MULTI_STARTS"]))
         self.assertTrue(all(r["status"] == "insufficient_draws" for r in b["diagnostics"]))
         with tempfile.TemporaryDirectory() as tmp:
             prefix = str(Path(tmp) / "smoke")
@@ -149,7 +190,7 @@ class SamplingTests(unittest.TestCase):
             metadata = json.loads(Path(prefix + "_metadata.json").read_text())
             self.assertEqual(metadata["n_cycles"], 2)
             with np.load(prefix + "_trajectories.npz") as data:
-                self.assertEqual(data["traj_E"].shape, (6, 2))
+                self.assertEqual(data["traj_E"].shape, (count, 2))
                 np.testing.assert_array_equal(data["traj_E"][:, 0],
                                                [r["traj_E"][0] for r in b["results"]])
             self.assertIn("insufficient_draws", Path(prefix + "_diagnostics.csv").read_text())
@@ -158,13 +199,87 @@ class SamplingTests(unittest.TestCase):
             NS["run_chain_ensemble"](NS["MULTI_STARTS"], [1, 1], 2, 0, 1)
 
     def test_short_pilot_never_claims_an_optimum(self):
+        original_sweeps = NS["N_MAG_PER_CYCLE"]
         pilot = NS["compare_magnetic_sweeps"](["compact_aligned"], [1], [1, 5], 2, 0)
         self.assertIsNone(pilot["recommendation"])
         self.assertTrue(all(not row["eligible"] for row in pilot["rows"]))
-        self.assertEqual(NS["N_MAG_PER_CYCLE"], 5)
+        self.assertEqual(NS["N_MAG_PER_CYCLE"], original_sweeps)
+
+    def test_optional_particle_records_do_not_change_sampling(self):
+        a = self.run_short(record_magnetic_detail=True)
+        b = self.run_short(record_magnetic_detail=False)
+        np.testing.assert_array_equal(a["traj_E"], b["traj_E"])
+        np.testing.assert_array_equal(a["mu"], b["mu"])
+        self.assertEqual(a["traj_particle_muB"].shape, (2, 27))
+        np.testing.assert_allclose(a["traj_particle_muB"].mean(axis=1), a["traj_magnetization"])
+        np.testing.assert_allclose(a["traj_particle_beta"].mean(axis=1), a["traj_beta"])
+
+    def test_collective_scale_geometry_and_position_switch(self):
+        original = self.state["pos"].copy()
+        proposal, ratio = NS["propose_cluster_scale"](original, 0, .002, np.random.default_rng(9))
+        factor = np.linalg.norm(proposal[1]) / np.linalg.norm(original[1])
+        np.testing.assert_array_equal(proposal[0], original[0])
+        np.testing.assert_array_equal(original, self.state["pos"])
+        np.testing.assert_allclose(proposal / factor, original, rtol=1e-12, atol=1e-20)
+        self.assertAlmostEqual(ratio, 3 * 26 * np.log(factor), places=12)
+        self.assertAlmostEqual(self.model.sl_tilt_metrics(proposal)["pca_tilt_deg"],
+                               self.model.sl_tilt_metrics(original)["pca_tilt_deg"], places=5)
+        frozen = self.run_short(move_positions=False, n_scale_per_cycle=1)
+        np.testing.assert_array_equal(frozen["pos"], original)
+        self.assertEqual(frozen["attempts"]["scale"], 0)
+        result = self.run_short(n_scale_per_cycle=1)
+        self.assertEqual(result["attempts"]["scale"], 2)
+        exact = self.model.energy_full_cluster(result["pos"], result["Q"], result["mu"], a_nm=NS["A_NM"])
+        self.assertAlmostEqual(exact["Total"] / self.model.kT, result["traj_E"][-1], places=8)
+
+    def test_collective_scale_jacobian_matches_gaussian_radial_target(self):
+        # Under a D-dimensional standard normal, E[sum(x^2)] = D.
+        # Omitting the scaling Jacobian collapses this chain toward zero.
+        dimension = 78
+        positions = np.arange(81, dtype=float).reshape(27, 3)
+        positions[0] = 0
+        positions *= np.sqrt(dimension / np.sum(positions**2))
+        radius_sq = np.sum(positions**2)
+        rng, retained = np.random.default_rng(713), []
+        for step in range(24000):
+            proposed, log_ratio = NS["propose_cluster_scale"](positions, 0, .08, rng)
+            next_radius_sq = np.sum(proposed**2)
+            if NS["metropolis_hastings_accept"](.5 * (next_radius_sq - radius_sq), 1, rng, log_ratio):
+                positions, radius_sq = proposed, next_radius_sq
+            if step >= 2000:
+                retained.append(radius_sq)
+        self.assertLess(abs(np.mean(retained) - dimension), 1.5)
+
+    def test_factorial_starts_separate_angle_from_spacing(self):
+        c0 = NS["make_initial_state"](1, "compact_aligned")
+        c40 = NS["make_initial_state"](1, "compact_tilted40")
+        e0 = NS["make_initial_state"](1, "expanded_aligned")
+        e40 = NS["make_initial_state"](1, "expanded_tilted")
+        np.testing.assert_allclose(e0["pos"], 1.08 * c0["pos"])
+        np.testing.assert_allclose(e40["pos"], 1.08 * c40["pos"])
+        np.testing.assert_allclose(e0["Q"], c0["Q"])
+        np.testing.assert_allclose(e40["Q"], c40["Q"])
+
+    def test_defaults_follow_front_mechanical_switches(self):
+        previous = NS["MOVE_POSITIONS"], NS["MOVE_ORIENTATIONS"]
+        try:
+            NS.update(MOVE_POSITIONS=False, MOVE_ORIENTATIONS=False)
+            result = self.run_short(n_scale_per_cycle=1)
+            np.testing.assert_array_equal(result["pos"], self.state["pos"])
+            np.testing.assert_array_equal(result["Q"], self.state["Q"])
+            for move in ["mechanical", "cotilt", "gamma", "scale"]:
+                self.assertEqual(result["attempts"][move], 0)
+        finally:
+            NS["MOVE_POSITIONS"], NS["MOVE_ORIENTATIONS"] = previous
 
 
 class DiagnosticTests(unittest.TestCase):
+    def test_ess_threshold_scales_with_chain_count(self):
+        x = np.random.default_rng(7).normal(size=(12, 2000))
+        row = NS["diagnose_chains"]({"x": x})[0]
+        self.assertEqual(row["ess_target"], 1200)
+        self.assertEqual(row["status"], "checks_passed")
+
     def test_iid_normal_reference(self):
         x = np.random.default_rng(40).normal(size=(4, 2000))
         r = NS["diagnose_chains"]({"x": x}, 2)[0]

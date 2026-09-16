@@ -1,0 +1,2 @@
+sweeps,elapsed_sec,all_checks_passed,failed_checks,max_rhat,min_bulk_ess,min_bulk_ess_per_sec
+10,12984.4242667,False,60,2.324783635837275,5.0731240719199295,0.0015360720043776908

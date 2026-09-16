@@ -1,0 +1,71 @@
+{
+  "config": {
+    "mode": "conditional",
+    "cycles": 2000,
+    "equil": 500,
+    "sweeps": [
+      1,
+      5,
+      10
+    ],
+    "starts": [
+      "compact_aligned",
+      "compact_tilted40",
+      "expanded_aligned",
+      "expanded_tilted"
+    ],
+    "seeds": [
+      11,
+      12,
+      13,
+      14
+    ],
+    "cotilt_step_deg": 0.75,
+    "source_sha256": {
+      "_v903cells/cell0.md": "af98c52def396b0af0ef5ceabef332825e9584dd92dd65131f3a9a78287aa0b4",
+      "_v903cells/cell1.py": "ba875342df618e08bee589d48d78d4e4b104944d8bbab1a80d6e3b847f3badad",
+      "_v903cells/cell2.py": "e3e5e9c11c7756d0153f0ac528b5e9a933c3f88eb6beb51832ed4e0f42e3f482",
+      "_v903cells/cell2a.py": "f7ccd6d68984bbad2a5c3562cd7c057bd4bb26807478c7275d8282137e2022dc",
+      "_v903cells/cell3.py": "eb7a88cca0ddfd8267ae44adbd6eb78207b5cf728ee12a3a7ced47453bea1064",
+      "_v903cells/cell4.py": "2e9ac1cc6f7e8ca93d6a20365f8e9ec1737dbb51d82d8bc936f27cdeaf069ef1",
+      "_v903cells/cell5.py": "eba3aaeeff9706fa7ec2dea6367ab0ef818e608a87cf190f52d0d5483200e08a",
+      "_v903cells/cell6.md": "4f77b6086aef05c58b7aef839f4ed4c7b61627d19265e86a63f8d277358fc9fc",
+      "_v903cells/cell6.py": "08a4094fe6dd7527bacfc304acbec500b1937f56264668289dfa0d459b6c6e09",
+      "_v903cells/cell7.py": "e048183afc03305794253a94a511e037ffff75234ada6f2b4f842e1b384053c7",
+      "scripts/run_sampling_optimization.py": "bffe86a30a88ec73a2854d397bba3611fc92e9251c4456f51953e09edb809647",
+      "scripts/run_sampling_experiment.py": "b2e441419ed5e2776c613772963d6bc8f5fd21573a0f8eac1ce1066c08d31f50"
+    }
+  },
+  "workers": 4,
+  "started_utc": "2026-09-16T06:28:03.105807+00:00",
+  "base_commit": "3e5eb44b87b71d4cf824d622a2cea7851b01959f",
+  "structures": {
+    "compact_aligned": {
+      "tilt_deg": 0.0,
+      "spacing_scale": 1.0
+    },
+    "compact_tilted40": {
+      "tilt_deg": 40.0,
+      "spacing_scale": 1.0
+    },
+    "expanded_aligned": {
+      "tilt_deg": 0.0,
+      "spacing_scale": 1.08
+    },
+    "expanded_tilted": {
+      "tilt_deg": 40.0,
+      "spacing_scale": 1.08
+    }
+  },
+  "physical_parameters": {
+    "Ms": 285000,
+    "B_field": 0.05,
+    "K_ani": 20000.0,
+    "Hamaker": 2e-20,
+    "N_voxel": 4,
+    "gap_nm": 1.8,
+    "k_stiff": 100000000.0,
+    "roundness_nm": 1.5
+  },
+  "interpretation": "No spatial confinement. Conditional magnetic targets are proper. Joint runs do not establish unrestricted cluster equilibrium."
+}

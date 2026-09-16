@@ -1,0 +1,79 @@
+{
+  "job": {
+    "start": "compact_aligned",
+    "seed": 13,
+    "sweeps": 5,
+    "name": "m5_compact_aligned_s13"
+  },
+  "sampling": {
+    "n_mag_per_cycle": 5,
+    "trans_step_nm": 0.03,
+    "rot_step_deg": 2.0,
+    "dip_step_rad": 0.3,
+    "anis_model": "cubic_first_raw",
+    "include_vdw": true,
+    "move_positions": false,
+    "move_orientations": false,
+    "n_cotilt_per_cycle": 1,
+    "cotilt_step_deg": 0.75,
+    "n_gamma_per_cycle": 1,
+    "gamma_step_deg": 2.0,
+    "show_progress": true,
+    "progress_backend": "text",
+    "progress_every": 100,
+    "n_cycles": 2000,
+    "n_equil": 500,
+    "record_magnetic_detail": true
+  },
+  "elapsed_sec": 60.117262199986726,
+  "scalars": {
+    "E_mean": -648.282140372584,
+    "beta_mean": 12.853832151546504,
+    "body_tilt_mean": 0.0,
+    "body_order_mean": 1.0000000000000002,
+    "body_sl_mismatch_mean": 0.0,
+    "body_sl_axis_angle_mean": 0.0,
+    "sl_pca_tilt_mean": 0.0,
+    "sl_pca_order_mean": 0.2722841219061268,
+    "gap_min_mean": 1.8284388226959427,
+    "gap_p05_mean": 1.828926408370408,
+    "muB_mean": 0.9658340644345196,
+    "magnetization_mean": 0.9658340644345196,
+    "rg_nm_mean": 29.698273490048226,
+    "attempts": {
+      "mechanical": 0,
+      "cotilt": 0,
+      "gamma": 0,
+      "dipole": 270000
+    },
+    "n_cycles": 2000,
+    "n_equil": 500,
+    "n_mag_per_cycle": 5,
+    "acc_mech": 0.0,
+    "acc_cotilt": 0.0,
+    "acc_gamma": 0.0,
+    "acc_dip": 0.7158925925925926
+  },
+  "init_entropy": [
+    13,
+    0,
+    2,
+    0
+  ],
+  "sample_entropy": [
+    13,
+    0,
+    2,
+    1
+  ],
+  "dipole_initialization": "anti_field",
+  "final_rng_state": {
+    "bit_generator": "PCG64",
+    "state": {
+      "state": 99127609020587129964162844589606060253,
+      "inc": 217995003830884610548650411732181653593
+    },
+    "has_uint32": 0,
+    "uinteger": 3618427040
+  }
+}

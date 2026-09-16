@@ -1,0 +1,7 @@
+{
+  "completed_utc": "2026-09-16T14:04:11.903748+00:00",
+  "jobs": 16,
+  "wall_sec_this_invocation": 2463.6466574,
+  "recommended_sweeps": null,
+  "recommendation_scope": "finite-run joint diagnostics; no unrestricted equilibrium claim"
+}

@@ -1,0 +1,48 @@
+V9.03 N27 collective MC loaded.
+B = 0.05 T = 500 G
+default seed=1; init=1, bench=1001, full=1
+preset=size_default: L=16, a=21.0, alpha=74.2, beta_init=0.0
+L=16.0 nm, a=21.0 nm, alpha=74.2 deg, beta_init=0.0 deg
+cycles=2000, equil=500, anis_model=cubic_first_raw
+global co-tilt moves/cycle=1, step=0.75 deg
+global gamma moves/cycle=1, step=2.0 deg
+CollectiveNanocubeMC defined.
+V9.03 local-delta MC helper defined.
+Initial N27 cluster
+  initial seed = 1, dipoles = random
+  N = 27
+  first shell around center = 6, first distance = 21.000 nm
+  min pair gap = 1.828 nm
+  local dipole-body <beta> = 95.478 deg
+  coherent cube-body tilt = 0.000 deg, body order = 1.000
+  SL tilt PCA = 0.000 deg, order = 0.272
+  body-SL tilt difference = 0.000 deg
+  body-SL axis angle = 0.000 deg
+  surface gap min/p05 = 1.828 / 1.829 nm
+  Zeeman            +29.180 kBT
+  Anisotropy       -104.738 kBT
+  Dipole            -12.381 kBT
+  VdW               -32.430 kBT
+  Steric             +0.000 kBT
+  Total            -120.369 kBT
+m1_compact_tilted40_s13: 1/2000 (  0.1%), elapsed 0.0 min, ETA 0.5 min
+m1_compact_tilted40_s13: 100/2000 (  5.0%), elapsed 0.0 min, ETA 0.4 min
+m1_compact_tilted40_s13: 200/2000 ( 10.0%), elapsed 0.0 min, ETA 0.4 min
+m1_compact_tilted40_s13: 300/2000 ( 15.0%), elapsed 0.1 min, ETA 0.3 min
+m1_compact_tilted40_s13: 400/2000 ( 20.0%), elapsed 0.1 min, ETA 0.3 min
+m1_compact_tilted40_s13: 500/2000 ( 25.0%), elapsed 0.1 min, ETA 0.3 min
+m1_compact_tilted40_s13: 600/2000 ( 30.0%), elapsed 0.1 min, ETA 0.3 min
+m1_compact_tilted40_s13: 700/2000 ( 35.0%), elapsed 0.1 min, ETA 0.3 min
+m1_compact_tilted40_s13: 800/2000 ( 40.0%), elapsed 0.2 min, ETA 0.2 min
+m1_compact_tilted40_s13: 900/2000 ( 45.0%), elapsed 0.2 min, ETA 0.2 min
+m1_compact_tilted40_s13: 1000/2000 ( 50.0%), elapsed 0.2 min, ETA 0.2 min
+m1_compact_tilted40_s13: 1100/2000 ( 55.0%), elapsed 0.2 min, ETA 0.2 min
+m1_compact_tilted40_s13: 1200/2000 ( 60.0%), elapsed 0.3 min, ETA 0.2 min
+m1_compact_tilted40_s13: 1300/2000 ( 65.0%), elapsed 0.3 min, ETA 0.1 min
+m1_compact_tilted40_s13: 1400/2000 ( 70.0%), elapsed 0.3 min, ETA 0.1 min
+m1_compact_tilted40_s13: 1500/2000 ( 75.0%), elapsed 0.3 min, ETA 0.1 min
+m1_compact_tilted40_s13: 1600/2000 ( 80.0%), elapsed 0.3 min, ETA 0.1 min
+m1_compact_tilted40_s13: 1700/2000 ( 85.0%), elapsed 0.4 min, ETA 0.1 min
+m1_compact_tilted40_s13: 1800/2000 ( 90.0%), elapsed 0.4 min, ETA 0.0 min
+m1_compact_tilted40_s13: 1900/2000 ( 95.0%), elapsed 0.4 min, ETA 0.0 min
+m1_compact_tilted40_s13: 2000/2000 (100.0%), elapsed 0.4 min, ETA 0.0 min

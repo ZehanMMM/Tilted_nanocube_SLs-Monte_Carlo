@@ -1,0 +1,43 @@
+Actual job: {'start': 'compact_tilted40', 'seed': 33, 'sweeps': 10, 'name': 'm10_compact_tilted40_s33'} magnetic initialization: random
+Initial geometry: {'body_tilt': 39.999999999999986, 'sl_pca_tilt': 40.00000000000001, 'min_gap_nm': 1.8284388226959425}
+m10_compact_tilted40_s33: 1/4000 (  0.0%), elapsed 0.0 min, ETA 15.3 min
+m10_compact_tilted40_s33: 100/4000 (  2.5%), elapsed 0.5 min, ETA 18.5 min
+m10_compact_tilted40_s33: 200/4000 (  5.0%), elapsed 0.9 min, ETA 17.0 min
+m10_compact_tilted40_s33: 300/4000 (  7.5%), elapsed 1.3 min, ETA 16.5 min
+m10_compact_tilted40_s33: 400/4000 ( 10.0%), elapsed 1.8 min, ETA 16.2 min
+m10_compact_tilted40_s33: 500/4000 ( 12.5%), elapsed 2.1 min, ETA 15.0 min
+m10_compact_tilted40_s33: 600/4000 ( 15.0%), elapsed 2.5 min, ETA 14.0 min
+m10_compact_tilted40_s33: 700/4000 ( 17.5%), elapsed 2.8 min, ETA 13.2 min
+m10_compact_tilted40_s33: 800/4000 ( 20.0%), elapsed 3.1 min, ETA 12.6 min
+m10_compact_tilted40_s33: 900/4000 ( 22.5%), elapsed 3.5 min, ETA 12.0 min
+m10_compact_tilted40_s33: 1000/4000 ( 25.0%), elapsed 3.8 min, ETA 11.5 min
+m10_compact_tilted40_s33: 1100/4000 ( 27.5%), elapsed 4.2 min, ETA 10.9 min
+m10_compact_tilted40_s33: 1200/4000 ( 30.0%), elapsed 4.4 min, ETA 10.4 min
+m10_compact_tilted40_s33: 1300/4000 ( 32.5%), elapsed 4.7 min, ETA 9.8 min
+m10_compact_tilted40_s33: 1400/4000 ( 35.0%), elapsed 5.0 min, ETA 9.3 min
+m10_compact_tilted40_s33: 1500/4000 ( 37.5%), elapsed 5.3 min, ETA 8.8 min
+m10_compact_tilted40_s33: 1600/4000 ( 40.0%), elapsed 5.5 min, ETA 8.3 min
+m10_compact_tilted40_s33: 1700/4000 ( 42.5%), elapsed 5.8 min, ETA 7.8 min
+m10_compact_tilted40_s33: 1800/4000 ( 45.0%), elapsed 6.1 min, ETA 7.4 min
+m10_compact_tilted40_s33: 1900/4000 ( 47.5%), elapsed 6.3 min, ETA 7.0 min
+m10_compact_tilted40_s33: 2000/4000 ( 50.0%), elapsed 6.6 min, ETA 6.6 min
+m10_compact_tilted40_s33: 2100/4000 ( 52.5%), elapsed 6.9 min, ETA 6.2 min
+m10_compact_tilted40_s33: 2200/4000 ( 55.0%), elapsed 7.2 min, ETA 5.9 min
+m10_compact_tilted40_s33: 2300/4000 ( 57.5%), elapsed 7.4 min, ETA 5.5 min
+m10_compact_tilted40_s33: 2400/4000 ( 60.0%), elapsed 7.7 min, ETA 5.1 min
+m10_compact_tilted40_s33: 2500/4000 ( 62.5%), elapsed 8.0 min, ETA 4.8 min
+m10_compact_tilted40_s33: 2600/4000 ( 65.0%), elapsed 8.2 min, ETA 4.4 min
+m10_compact_tilted40_s33: 2700/4000 ( 67.5%), elapsed 8.5 min, ETA 4.1 min
+m10_compact_tilted40_s33: 2800/4000 ( 70.0%), elapsed 8.8 min, ETA 3.8 min
+m10_compact_tilted40_s33: 2900/4000 ( 72.5%), elapsed 9.1 min, ETA 3.4 min
+m10_compact_tilted40_s33: 3000/4000 ( 75.0%), elapsed 9.4 min, ETA 3.1 min
+m10_compact_tilted40_s33: 3100/4000 ( 77.5%), elapsed 9.7 min, ETA 2.8 min
+m10_compact_tilted40_s33: 3200/4000 ( 80.0%), elapsed 10.1 min, ETA 2.5 min
+m10_compact_tilted40_s33: 3300/4000 ( 82.5%), elapsed 10.4 min, ETA 2.2 min
+m10_compact_tilted40_s33: 3400/4000 ( 85.0%), elapsed 10.8 min, ETA 1.9 min
+m10_compact_tilted40_s33: 3500/4000 ( 87.5%), elapsed 11.1 min, ETA 1.6 min
+m10_compact_tilted40_s33: 3600/4000 ( 90.0%), elapsed 11.4 min, ETA 1.3 min
+m10_compact_tilted40_s33: 3700/4000 ( 92.5%), elapsed 11.7 min, ETA 0.9 min
+m10_compact_tilted40_s33: 3800/4000 ( 95.0%), elapsed 12.0 min, ETA 0.6 min
+m10_compact_tilted40_s33: 3900/4000 ( 97.5%), elapsed 12.4 min, ETA 0.3 min
+m10_compact_tilted40_s33: 4000/4000 (100.0%), elapsed 12.7 min, ETA 0.0 min

@@ -1,0 +1,88 @@
+{
+  "job": {
+    "start": "compact_aligned",
+    "seed": 34,
+    "sweeps": 10,
+    "name": "m10_compact_aligned_s34"
+  },
+  "sampling": {
+    "n_mag_per_cycle": 10,
+    "trans_step_nm": 0.03,
+    "rot_step_deg": 2.0,
+    "dip_step_rad": 1.6,
+    "anis_model": "cubic_first_raw",
+    "include_vdw": true,
+    "move_positions": true,
+    "move_orientations": true,
+    "n_cotilt_per_cycle": 1,
+    "cotilt_step_deg": 3.0,
+    "n_gamma_per_cycle": 1,
+    "gamma_step_deg": 2.0,
+    "n_scale_per_cycle": 1,
+    "scale_log_step": 0.002,
+    "show_progress": true,
+    "progress_backend": "text",
+    "progress_every": 100,
+    "n_cycles": 4000,
+    "n_equil": 1000,
+    "record_magnetic_detail": false
+  },
+  "elapsed_sec": 860.4241294000001,
+  "scalars": {
+    "E_mean": -567.5195562369779,
+    "beta_mean": 25.42049904910858,
+    "body_tilt_mean": 6.516349806554864,
+    "body_order_mean": 0.8693897187896341,
+    "body_sl_mismatch_mean": -0.3192443446929392,
+    "body_sl_axis_angle_mean": 4.584681843139768,
+    "sl_pca_tilt_mean": 6.835594151247802,
+    "sl_pca_order_mean": 0.26905136312876565,
+    "gap_min_mean": 1.9192373452886802,
+    "gap_p05_mean": 3.2849542142212975,
+    "muB_mean": 0.9391674827404536,
+    "magnetization_mean": 0.9391674827404536,
+    "rg_nm_mean": 35.43787257435919,
+    "attempts": {
+      "mechanical": 108000,
+      "cotilt": 4000,
+      "gamma": 4000,
+      "dipole": 1080000,
+      "scale": 4000
+    },
+    "n_cycles": 4000,
+    "n_equil": 1000,
+    "n_mag_per_cycle": 10,
+    "acc_mech": 0.9455833333333333,
+    "acc_cotilt": 0.79375,
+    "acc_gamma": 0.70025,
+    "acc_dip": 0.25987777777777776,
+    "acc_scale": 0.7705
+  },
+  "init_entropy": [
+    34,
+    0,
+    3,
+    0
+  ],
+  "sample_entropy": [
+    34,
+    0,
+    3,
+    1
+  ],
+  "dipole_initialization": "random",
+  "final_rng_state": {
+    "bit_generator": "PCG64",
+    "state": {
+      "state": 21525165389478280854550320846533464796,
+      "inc": 33171832657952899774352376997038517883
+    },
+    "has_uint32": 0,
+    "uinteger": 2737067620
+  },
+  "initial_geometry": {
+    "body_tilt": 0.0,
+    "sl_pca_tilt": 0.0,
+    "min_gap_nm": 1.8284388226959425
+  }
+}

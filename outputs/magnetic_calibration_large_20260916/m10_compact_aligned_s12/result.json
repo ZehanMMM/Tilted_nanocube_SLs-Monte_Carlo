@@ -1,0 +1,88 @@
+{
+  "job": {
+    "start": "compact_aligned",
+    "seed": 12,
+    "sweeps": 10,
+    "name": "m10_compact_aligned_s12"
+  },
+  "sampling": {
+    "n_mag_per_cycle": 10,
+    "trans_step_nm": 0.03,
+    "rot_step_deg": 2.0,
+    "dip_step_rad": 1.6,
+    "anis_model": "cubic_first_raw",
+    "include_vdw": true,
+    "move_positions": false,
+    "move_orientations": false,
+    "n_cotilt_per_cycle": 1,
+    "cotilt_step_deg": 0.75,
+    "n_gamma_per_cycle": 1,
+    "gamma_step_deg": 2.0,
+    "n_scale_per_cycle": 1,
+    "scale_log_step": 0.002,
+    "show_progress": true,
+    "progress_backend": "text",
+    "progress_every": 100,
+    "n_cycles": 2000,
+    "n_equil": 500,
+    "record_magnetic_detail": true
+  },
+  "elapsed_sec": 111.42914299992844,
+  "scalars": {
+    "E_mean": -648.43647205428,
+    "beta_mean": 12.860671670791818,
+    "body_tilt_mean": 0.0,
+    "body_order_mean": 1.0000000000000002,
+    "body_sl_mismatch_mean": 0.0,
+    "body_sl_axis_angle_mean": 0.0,
+    "sl_pca_tilt_mean": 0.0,
+    "sl_pca_order_mean": 0.2722841219061268,
+    "gap_min_mean": 1.8284388226959427,
+    "gap_p05_mean": 1.828926408370408,
+    "muB_mean": 0.9658974069834722,
+    "magnetization_mean": 0.9658974069834722,
+    "rg_nm_mean": 29.698273490048226,
+    "attempts": {
+      "mechanical": 0,
+      "cotilt": 0,
+      "gamma": 0,
+      "dipole": 540000,
+      "scale": 0
+    },
+    "n_cycles": 2000,
+    "n_equil": 500,
+    "n_mag_per_cycle": 10,
+    "acc_mech": 0.0,
+    "acc_cotilt": 0.0,
+    "acc_gamma": 0.0,
+    "acc_dip": 0.23613148148148147,
+    "acc_scale": 0.0
+  },
+  "init_entropy": [
+    12,
+    0,
+    2,
+    0
+  ],
+  "sample_entropy": [
+    12,
+    0,
+    2,
+    1
+  ],
+  "dipole_initialization": "field",
+  "final_rng_state": {
+    "bit_generator": "PCG64",
+    "state": {
+      "state": 15473439661634688258085038799499574794,
+      "inc": 110902393264218399843286322946895948543
+    },
+    "has_uint32": 1,
+    "uinteger": 1783024805
+  },
+  "initial_geometry": {
+    "body_tilt": 0.0,
+    "sl_pca_tilt": 0.0,
+    "min_gap_nm": 1.8284388226959425
+  }
+}

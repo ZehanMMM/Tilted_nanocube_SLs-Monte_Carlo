@@ -14,6 +14,8 @@ res = run_local_collective_mc(model, state0, A_NM,
                               cotilt_step_deg=GLOBAL_COTILT_STEP_DEG,
                               n_gamma_per_cycle=GLOBAL_GAMMA_MOVES_PER_CYCLE,
                               gamma_step_deg=GLOBAL_GAMMA_STEP_DEG,
+                              n_scale_per_cycle=GLOBAL_SCALE_MOVES_PER_CYCLE,
+                              scale_log_step=GLOBAL_SCALE_LOG_STEP,
                               show_progress=SHOW_PROGRESS_BARS,
                               progress_label=f"full seed {FULL_RUN_SEED}",
                               progress_backend=PROGRESS_BACKEND,
@@ -36,6 +38,7 @@ print(f"  <|mu.B|> = {res['muB_mean']:.3f}")
 print(f"  signed <mu.B> = {res['magnetization_mean']:.3f}")
 print(f"  acceptance mech/cotilt/gamma/dip = {res['acc_mech']:.3f} / "
       f"{res['acc_cotilt']:.3f} / {res['acc_gamma']:.3f} / {res['acc_dip']:.3f}")
+print(f"  acceptance scale = {res['acc_scale']:.3f}")
 
 full_report_rows = [
     {
@@ -114,6 +117,7 @@ if SAVE_REPORT_PDFS:
             f"elapsed_min              = {elapsed / 60.0:.6g}",
             f"acc_mech/cotilt/gamma/dip = {res['acc_mech']:.6g} / "
             f"{res['acc_cotilt']:.6g} / {res['acc_gamma']:.6g} / {res['acc_dip']:.6g}",
+            f"acc_scale               = {res['acc_scale']:.6g}",
             "",
             "Values marked postwarm_mean are averaged over cycles N_EQUIL..N_CYCLES-1.",
             "Values marked final are the last recorded cycle.",

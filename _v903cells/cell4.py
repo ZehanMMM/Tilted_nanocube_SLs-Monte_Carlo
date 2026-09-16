@@ -30,6 +30,8 @@ bench = run_local_collective_mc(model, state0, A_NM,
                                 cotilt_step_deg=GLOBAL_COTILT_STEP_DEG,
                                 n_gamma_per_cycle=GLOBAL_GAMMA_MOVES_PER_CYCLE,
                                 gamma_step_deg=GLOBAL_GAMMA_STEP_DEG,
+                                n_scale_per_cycle=GLOBAL_SCALE_MOVES_PER_CYCLE,
+                                scale_log_step=GLOBAL_SCALE_LOG_STEP,
                                 show_progress=SHOW_BENCH_PROGRESS,
                                 progress_label=f"bench seed {BENCH_SEED}",
                                 progress_backend=PROGRESS_BACKEND,
@@ -54,3 +56,4 @@ print(f"  bench SL tilt PCA={bench['sl_pca_tilt_mean']:.2f} deg "
 print(f"  bench gap min/p05={bench['gap_min_mean']:.3f} / {bench['gap_p05_mean']:.3f} nm")
 print(f"  acceptance mech/cotilt/gamma/dip = {bench['acc_mech']:.3f} / "
       f"{bench['acc_cotilt']:.3f} / {bench['acc_gamma']:.3f} / {bench['acc_dip']:.3f}")
+print(f"  acceptance scale = {bench['acc_scale']:.3f}")

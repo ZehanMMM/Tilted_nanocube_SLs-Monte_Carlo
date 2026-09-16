@@ -1,0 +1,7 @@
+{
+  "completed_utc": "2026-09-16T13:44:47.882025+00:00",
+  "jobs": 16,
+  "wall_sec_this_invocation": 1299.7485775,
+  "recommended_sweeps": 10,
+  "recommendation_scope": "fixed-geometry magnetic calibration only"
+}
