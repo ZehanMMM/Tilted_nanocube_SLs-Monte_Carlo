@@ -1,6 +1,10 @@
 """Full history of every chain: v1 relaxation (3000) followed by v2 (4000).
 
-    python scripts/plot_history.py outputs/production_v1_energy_hole outputs/production OUT.png
+    python scripts/plot_history.py outputs/production_v1_energy_hole outputs/production OUT.png [--hide-discarded]
+
+--hide-discarded omits the grey part of the chain whose v1 segment was cut
+(the energy-hole chain), for a figure that shows only the retained history.
+--keys=rg_nm,n_bonds,... selects and orders the panels.
 
 v1 sampled a slightly different target (no D0 core minimum), so its part is
 shown only as the relaxation history; statistics use v2 alone.  The chain
@@ -29,8 +33,14 @@ COLORS = {"compact_aligned": "#2a6f97", "compact_tilted40": "#c44e52",
 
 def main():
     v1, v2, out = Path(sys.argv[1]), Path(sys.argv[2]), Path(sys.argv[3])
+    hide = "--hide-discarded" in sys.argv[4:]
+    keys = KEYS
+    for arg in sys.argv[4:]:
+        if arg.startswith("--keys="):
+            wanted = arg.split("=", 1)[1].split(",")
+            keys = [next(k for k in KEYS if k[0] == w) for w in wanted]
     sources = json.loads((Path("outputs/v2_sources") / "SOURCES.json").read_text())
-    fig, axes = plt.subplots(len(KEYS), 1, figsize=(12, 2.1 * len(KEYS)), sharex=True)
+    fig, axes = plt.subplots(len(keys), 1, figsize=(12, 2.1 * len(keys)), sharex=True)
     for folder in sorted(v2.iterdir()):
         if not (folder / "complete.json").exists():
             continue
@@ -39,10 +49,11 @@ def main():
         old = v1 / f"{start}_s{seed - 10}"
         cut = int(sources[old.name]["source"].rsplit("_", 1)[1])
         with np.load(old / "trajectory.npz") as a, np.load(folder / "trajectory.npz") as b:
-            for ax, (k, label) in zip(axes, KEYS):
-                x = np.r_[a[k][:cut], b[k]]
-                t = np.r_[np.arange(1, cut + 1), 3000 + np.arange(1, len(b[k]) + 1)]
-                if cut < 3000:        # hole chain: show the discarded part faintly
+            for ax, (k, label) in zip(axes, keys):
+                gap = [np.nan] if cut < 3000 else []      # break the line across a cut
+                x = np.r_[a[k][:cut], gap, b[k]]
+                t = np.r_[np.arange(1, cut + 1), gap, 3000 + np.arange(1, len(b[k]) + 1)]
+                if cut < 3000 and not hide:   # hole chain: show the discarded part faintly
                     ax.plot(np.arange(cut + 1, 3001), a[k][cut:], color="0.75", lw=0.4)
                 ax.plot(t, x, lw=0.45, color=COLORS[start], alpha=0.8)
                 ax.set_ylabel(label, fontsize=8)

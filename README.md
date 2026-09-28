@@ -120,6 +120,8 @@ python scripts/analyze_anneal.py configs/lattice_anneal.json outputs/lattice_ann
 python scripts/lattice_per_chain.py outputs/lattice_per_chain
 python scripts/plot_lattice_tilt.py outputs/lattice_production_cont 0 outputs/lattice_anneal outputs/lattice_production_cont
 python scripts/twist_window.py outputs/twist_window
+# SI Figure S21B (free-cluster history, v1 relaxation + v2)
+python scripts/plot_history.py outputs/production_v1_energy_hole outputs/production outputs/production/history_si.png --hide-discarded --keys=rg_nm,n_bonds,vdw_kBT,energy_kBT
 ```
 
 Run from the repository root with `PYTHONPATH=.`.  Runs are resumable: a
