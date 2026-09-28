@@ -1,0 +1,66 @@
+{
+  "compact_aligned_s1": {
+    "source": "final_state_cycle_3000",
+    "vdw_kBT": -4.801737228033637
+  },
+  "compact_aligned_s2": {
+    "source": "final_state_cycle_3000",
+    "vdw_kBT": -4.028444466952406
+  },
+  "compact_aligned_s3": {
+    "source": "final_state_cycle_3000",
+    "vdw_kBT": -3.578847235073552
+  },
+  "compact_aligned_s4": {
+    "source": "final_state_cycle_3000",
+    "vdw_kBT": -4.4440676091637235
+  },
+  "compact_tilted40_s1": {
+    "source": "snapshot_cycle_1300",
+    "vdw_kBT": -5.588970752676795
+  },
+  "compact_tilted40_s2": {
+    "source": "final_state_cycle_3000",
+    "vdw_kBT": -5.8991108726911285
+  },
+  "compact_tilted40_s3": {
+    "source": "final_state_cycle_3000",
+    "vdw_kBT": -5.3694066867645045
+  },
+  "compact_tilted40_s4": {
+    "source": "final_state_cycle_3000",
+    "vdw_kBT": -4.554576552423791
+  },
+  "expanded_aligned_s1": {
+    "source": "final_state_cycle_3000",
+    "vdw_kBT": -5.11515110188817
+  },
+  "expanded_aligned_s2": {
+    "source": "final_state_cycle_3000",
+    "vdw_kBT": -3.858288278717016
+  },
+  "expanded_aligned_s3": {
+    "source": "final_state_cycle_3000",
+    "vdw_kBT": -5.7876046628703
+  },
+  "expanded_aligned_s4": {
+    "source": "final_state_cycle_3000",
+    "vdw_kBT": -3.645167269892536
+  },
+  "expanded_tilted_s1": {
+    "source": "final_state_cycle_3000",
+    "vdw_kBT": -4.097898464137886
+  },
+  "expanded_tilted_s2": {
+    "source": "final_state_cycle_3000",
+    "vdw_kBT": -4.973384820357022
+  },
+  "expanded_tilted_s3": {
+    "source": "final_state_cycle_3000",
+    "vdw_kBT": -3.4074822386763217
+  },
+  "expanded_tilted_s4": {
+    "source": "final_state_cycle_3000",
+    "vdw_kBT": -5.6662769584798705
+  }
+}

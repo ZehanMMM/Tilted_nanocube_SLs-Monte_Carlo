@@ -1,0 +1,119 @@
+{
+  "equil": 1000,
+  "cycles": 2000,
+  "chains": 4,
+  "pooled": {
+    "energy_kBT": {
+      "mean": -571.39501514348,
+      "mcse": 1.962643575595872,
+      "rhat": 1.1152139744265825,
+      "ess_bulk": 23.886526550944758,
+      "status": "high_rhat,low_ess"
+    },
+    "vdw_kBT": {
+      "mean": -3.3920007319602323,
+      "mcse": 0.07788718214406795,
+      "rhat": 1.0963819749686745,
+      "ess_bulk": 45.04787359433167,
+      "status": "high_rhat,low_ess"
+    },
+    "dipole_kBT": {
+      "mean": -61.44303661544352,
+      "mcse": 1.7107996880657512,
+      "rhat": 1.188012056643773,
+      "ess_bulk": 15.10874108786203,
+      "status": "high_rhat,low_ess"
+    },
+    "local_beta_deg": {
+      "mean": 89.43959436642626,
+      "mcse": 0.6919213685148384,
+      "rhat": 1.0411170324746895,
+      "ess_bulk": 134.32900072362412,
+      "status": "high_rhat,low_ess,high_mcse"
+    },
+    "body_tilt_deg": {
+      "mean": 56.454998565294254,
+      "mcse": 1.2448584712766984,
+      "rhat": 1.0072065528706617,
+      "ess_bulk": 328.01350366179486,
+      "status": "low_ess,high_mcse"
+    },
+    "body_order": {
+      "mean": 0.17289732683268721,
+      "mcse": 0.00436764652419248,
+      "rhat": 1.0106787815356737,
+      "ess_bulk": 310.54773847124477,
+      "status": "high_rhat,low_ess"
+    },
+    "sl_pca_tilt_deg": {
+      "mean": 9.480958080851291,
+      "mcse": 0.650480021695692,
+      "rhat": 1.0599933890524296,
+      "ess_bulk": 54.512219335232615,
+      "status": "high_rhat,low_ess,high_mcse"
+    },
+    "sl_pca_order": {
+      "mean": 0.725320734653767,
+      "mcse": 0.06796201634928256,
+      "rhat": 3.200038580463744,
+      "ess_bulk": 4.485885927476349,
+      "status": "high_rhat,low_ess"
+    },
+    "body_sl_difference_deg": {
+      "mean": 46.974040484442966,
+      "mcse": 1.3475913833618172,
+      "rhat": 1.0060477300820887,
+      "ess_bulk": 274.93576067703043,
+      "status": "low_ess"
+    },
+    "body_sl_axis_angle_deg": {
+      "mean": 56.31047260273869,
+      "mcse": 1.1805601561206218,
+      "rhat": 1.00849129075117,
+      "ess_bulk": 352.02465916139823,
+      "status": "low_ess"
+    },
+    "magnetization": {
+      "mean": 0.9324316968578521,
+      "mcse": 0.0006785247130526951,
+      "rhat": 1.0164981508298812,
+      "ess_bulk": 348.0499505591382,
+      "status": "high_rhat,low_ess"
+    },
+    "abs_muB": {
+      "mean": 0.9324316968578521,
+      "mcse": 0.0006785247130526951,
+      "rhat": 1.0164981508298812,
+      "ess_bulk": 348.0499505591382,
+      "status": "high_rhat,low_ess"
+    },
+    "min_gap_nm": {
+      "mean": 1.9100067792973345,
+      "mcse": 0.0034984699923868486,
+      "rhat": 1.0032067579327164,
+      "ess_bulk": 1156.3653080948272,
+      "status": "passed"
+    },
+    "p05_gap_nm": {
+      "mean": 4.7245934046048665,
+      "mcse": 0.048672567789040944,
+      "rhat": 1.0254888399834226,
+      "ess_bulk": 161.9715676317041,
+      "status": "high_rhat,low_ess"
+    },
+    "rg_nm": {
+      "mean": 75.54021459817221,
+      "mcse": 4.351005606670511,
+      "rhat": 2.421699437433098,
+      "ess_bulk": 4.910724136549849,
+      "status": "high_rhat,low_ess"
+    },
+    "n_bonds": {
+      "mean": 29.7095,
+      "mcse": 0.3791868102944632,
+      "rhat": 1.1049150524807974,
+      "ess_bulk": 30.204966852648,
+      "status": "high_rhat,low_ess"
+    }
+  }
+}

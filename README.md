@@ -1,252 +1,154 @@
-# V9.03 Nanocube Collective Monte Carlo Simulation
+# Tilted nanocube superlattices: Monte Carlo (V9.04)
 
-This repository contains the V9.03 Monte Carlo model used to study the coupled reorientation of a compact 3 x 3 x 3 magnetite nanocube superlattice in a 500 G magnetic field.
+Monte Carlo model of a 3 x 3 x 3 rhombohedral superlattice (SL) of 16 nm
+Fe3O4 nanocubes in a 500 G field at 298.15 K.  It supports Section S16 of the
+Supporting Information of *In Situ SAXS/WAXS Exposes Competing Magnetic and
+van der Waals Interactions in Temperature- and Field-Driven Assembly of Fe3O4
+Nanocubes* (Mi, Jeong, Lin, Lee, Irvine, Talapin).
+
+V9.04 replaces V9.03.  The V9.03 code and outputs cited in earlier drafts of
+the SI are preserved at the git tag [`v9.03`](../../tree/v9.03).
+
+## Main results
+
+| question | answer | where |
+|---|---|---|
+| Is the van der Waals (vdW) term converged? | Yes. The sharp-cube Hamaker integral is evaluated at its voxel limit; n^3 voxel sums converge onto it as n^-2. The V9.03 4^3 sum was 2.9x too weak at a 1.8 nm face gap. | `outputs/vdw_convergence/` |
+| Does a free 27-cube cluster stay together at 298 K? | No. The lattice is 74 kBT lower in energy than the dispersed cluster, but releasing 26 caged cubes gains roughly 700 kBT of entropy; the cluster dissolves within ~300 cycles. Even a single pair is unbound. | `outputs/production/`, `outputs/pair_binding/` |
+| Given that the SL exists, how far does its axis tilt from B? | The SL three-fold axis stays in a cone around B: 95 % of 48 000 samples in 0.9-10.2 deg, all in 0.03-14.5 deg, in every one of 16 chains from starts at 0, 20, 40 and 60 deg. The free energy per solid angle is minimal at 0 deg (about 220 kBT/rad^2). | `outputs/lattice_per_chain/`, `outputs/lattice_production_cont/` |
+| What is the lowest-energy structure? | Simulated annealing (8 restarts): SL axis, cube [111] axes and moments all along B (tilt 0.06-0.31 deg). | `outputs/lattice_anneal/` |
+| Can a cube rotate inside the lattice? | Only about [111]: a 30 deg twist window, mirror-symmetric about its centre. At 298 K the cubes fluctuate about the achiral centre (+-5.8 deg); at T -> 0 each cube sits at one of the two mirror-image walls. The lattice cannot rotate independently of its cubes. | `outputs/twist_window/` |
+
+The observed tilted SL orientation, [1 1.4 1]\*SL parallel to B, is a 13.7 deg
+tilt.  An isolated domain reaches it in only 0.07 % of samples (about 6.5 kBT
+per solid angle above the minimum), so within this model it is not a
+single-domain equilibrium state.
+
+![vdW voxel convergence](outputs/vdw_convergence/vdw_voxel_convergence.png)
+![SL tilt of every chain](outputs/lattice_per_chain/sl_tilt_every_chain.png)
+![Free energy of the SL axis](outputs/lattice_production_cont/sl_tilt_free_energy.png)
+![Twist window](outputs/twist_window/twist_window.png)
+
+## Changes relative to V9.03
+
+| | V9.03 | V9.04 |
+|---|---|---|
+| vdW | sharp-cube Hamaker sum, 4^3 voxels, d^2 >= 1e-19 m^2 floor, cutoff 2.2 a | the same integral at its voxel limit (no floor, no cutoff), via an exact surface reduction |
+| hard core | none beyond the rounded-support steric spring | sharp cores at least D0 = 0.165 nm apart (Hamaker contact cutoff) |
+| target distribution | positions unbounded: not normalisable | (1) Stillinger cluster ensemble; (2) rigid-lattice ensemble |
+| moves | translation + rotation as one move, 0.03 nm / 2 deg | separate moves, two-scale mixtures, steps tuned by mean squared jump distance |
+| optimisation | none | simulated annealing of the total energy with independent restarts |
+| diagnostics | R-hat, ESS, MCSE | plus tau_int, batch-means MCSE, Geweke, MSER-5, per-start distributions, split windows, stability runs |
+
+Zeeman, first-order cubic anisotropy, point dipoles and the rounded-support
+steric spring are unchanged; `tests/test_model.py` checks them term by term
+against the V9.03 code (bundled in `reference/v903_cells/`).
 
 ## Model
 
-The simulated system contains 27 cubes with a default inorganic edge length of 16 nm. The initial structure is compact and rhombohedrally tilted. Each Monte Carlo cycle attempts collective cube translation, cube-body rotation, and magnetic dipole rotation according to the switches in the first notebook cell.
+    U = E_Z + E_ani + E_dd + E_vdW + E_steric
 
-The energy includes Zeeman, cubic magnetocrystalline anisotropy, dipole-dipole, van der Waals, and steric terms. The superlattice tilt is obtained from principal component analysis of the cube-center coordinates. Per-cube body tilt is measured between body [111] and the magnetic field. The reported coherent body tilt uses the mean body-[111] direction and treats its sign as equivalent. Body order records the length of that mean direction. Monte Carlo cycles are sampling steps and are not interpreted as physical time.
+- E_Z = -m B . sum_i mu_i, m = Ms L^3, Ms = 2.85e5 A/m, B = 0.05 T
+- E_ani = -K V sum_i (mx^2 my^2 + mx^2 mz^2 + my^2 mz^2), K = 2.0e4 J/m^3
+- E_dd: point dipoles
+- E_vdW = -(A/pi^2) int int dV1 dV2 / r^6 over two sharp cubes, A = 20 zJ
+- E_steric: spring k = 1e8 J/m^2 below a 1.8 nm rounded-support gap (rounding 1.5 nm)
 
-Default settings include:
+The vdW integral is reduced exactly, by Gauss's theorem applied to each cube,
+to 36 face-pair integrals of (n_i . n_j) R^-4.  The inner face integral has
+a closed form; the outer one is done by Gauss rules, refined adaptively near
+contacts until each panel is small compared with its distance to the other
+face.  An independent octree volume integration agrees to 3.6e-6.
 
-- Magnetic field: 500 G (0.05 T)
-- Temperature: 298.15 K
-- Particle size: 16 nm
-- Cluster: 27 cubes in a full 3 x 3 x 3 arrangement
-- Cycles: 2000
-- Equilibration cycles: 500
-- Random seed: 1
-- Effective initial surface gap: 1.8 nm
-- Corner-rounding parameter: 1.5 nm
-- Magnetic updates: 10 complete random-order sweeps per cycle
-- Magnetic proposal maximum angle: 1.60 rad, selected by conditional pilots
-- Collective center scaling: one move per cycle, maximum log-scale 0.002
-- Rigid body/center co-tilt: one move per cycle, maximum angle 3 degrees
-- Optional multi-chain design: 5 initial structures x 4 seeds
+Two ensembles are used.  In both the state space is compact and
+exp(-U/kT) is normalisable.
 
-## Repository Structure
+1. **Cluster ensemble** (`schedule: cluster`): free positions, bodies and
+   moments.  The cluster is defined by a connected bond graph (centre
+   distance < 30 nm, Stillinger).  Used to show that the SL is not
+   self-bound.
+2. **Rigid-lattice ensemble** (`schedule: lattice`): positions fixed on the
+   experimental lattice (a = 21 nm, alpha = 74.2 deg), which rotates only
+   as a whole (G in SO(3)).  Samples every cube's body orientation, every
+   moment and G.  This answers what happens given that the SL exists.
 
-- `V9.03_N27_500G.ipynb`: executable notebook
-- `_v903cells/`: editable notebook source cells and rebuild script
-- `tests/`: short sampler, diagnostic and notebook regression tests
-- `docs/MCMC_DIAGNOSTICS_ZH.md`: Chinese explanation of the experiment and diagnostics
-- `outputs/`: 16 nm reports, calibration and validation checkpoints, and diagnostics
-- `supporting_information/`: concise Supporting Information text in Word format
+## Monte Carlo
 
-The notebook is generated from `_v903cells`. Edit the latest source cells and run `_v903cells/build.py` to rebuild it. The original historical versions are not included or modified.
+Metropolis-Hastings with symmetric proposals: translation, body rotation,
+moment rotation, co-tilt (rigid rotation of lattice and bodies), twist about
+the mean [111] axis, dilation (with its 3(N-1) log-scale Jacobian) and
+lattice rotation.  Constraint violations are rejections.  Steps are tuned in
+pilots only (`scripts/pilot_tuning*.py`), then frozen, with fresh seeds for
+production.  Warm-up is fixed before each run.  Energy caches are checked
+against fresh evaluations every 250 cycles (drift gate 1e-6 kBT).
+Annealing (`v904/anneal.py`) uses the same kernels with a geometric kT
+schedule and adaptive steps; independent restarts and a local test check
+its result.
 
-## Running the Simulation
+## Validation
 
-Create a Python environment and install the dependencies:
+`python -m unittest discover -s tests -v` runs 31 tests.  Among them:
+
+- the vdW evaluator against voxel sums, V10's numbers and octree integration;
+- V9.03 regression;
+- exact energy bookkeeping for every move;
+- every kernel against an independent answer: Haar measure, sphere
+  quadrature, i.i.d. importance sampling, a 1D Jacobian test with a
+  negative control, a pair-orientation quadrature, and a grid minimum for
+  annealing.
+
+## Reproduce
 
 ```bash
 python -m pip install -r requirements.txt
-```
-
-Open the notebook:
-
-```bash
-jupyter notebook V9.03_N27_500G.ipynb
-```
-
-Simulation controls are grouped near the beginning of `_v903cells/cell1.py` and in the first notebook setup cell. Set `DEFAULT_SEED`, `N_CYCLES`, `N_EQUIL`, and the move switches there before running the notebook from top to bottom. Running all cells executes the benchmark and the full single-chain run. Multi-chain and magnetic-sweep pilot experiments remain disabled by default.
-
-## Sampling Experiment
-
-The sampler uses Metropolis-Hastings with acceptance probability
-`min(1, exp(-delta_U/kBT + log_q_reverse - log_q_forward))`.
-Current translation, body rotation, dipole rotation and global rotation proposals
-are symmetric, so the log proposal ratio is zero. Acceptance is evaluated in
-log space. Increasing the magnetic sweep count changes sampling efficiency,
-not the interaction model.
-
-`N_MAG_PER_CYCLE = 10` means ten complete random permutations of the
-particles per cycle. Each particle receives one dipole proposal per sweep.
-Magnetic proposals evaluate only Zeeman, anisotropy and dipolar terms.
-The unchanged vdW and steric terms cancel for these proposals.
-
-Set `RUN_MULTI_SEED_SCAN = True` to cross `MULTI_STARTS` with `MULTI_SEEDS`.
-Defaults use seeds 1, 2, 3 and 4 with these starts:
-
-- `compact_aligned`: the compact cluster at 0 degrees
-- `compact_tilted`: the same compact geometry co-rotated by 20 degrees
-- `expanded_tilted`: an 8% expansion, co-rotated by 40 degrees
-- `compact_tilted40`: the compact cluster co-rotated by 40 degrees
-- `expanded_aligned`: an 8% expansion at zero tilt
-
-The third start changes interparticle distances, not just global orientation.
-These are dispersed starts within the existing N27 cluster family, not a survey
-of all assembly topologies. Bodies and the SL axis are initially aligned.
-All chains use the same size, field, temperature, energy parameters and `A_NM`
-cutoff reference. Different structures require both mechanical switches to
-remain enabled for the pooled comparison.
-
-Initialization and sampling have separate reproducible NumPy SeedSequence
-streams. The structure identifier is its position in `INITIAL_STRUCTURES`.
-The actual entropy tuples are recorded in the chain CSV, together with the seed
-and start label. No pilot samples are included in production diagnostics.
-
-Set `RUN_MAGNETIC_PILOT = True` to compare 1, 5 and 10 sweeps in joint
-sampling using `PILOT_CYCLES` and `PILOT_EQUIL`. Fixed-geometry magnetic
-calibration uses the separate script described below. A candidate must pass the diagnostic gates
-for every monitored observable before it can be recommended. Eligible candidates
-are ranked by their worst bulk ESS per elapsed second, including warm-up time.
-If none qualifies, the recommendation is absent. The pilot never changes
-`N_MAG_PER_CYCLE` automatically. The current ten-sweep default was selected
-by the separate fixed-geometry calibration, not this optional joint pilot.
-
-## Interpreting Diagnostics
-
-ArviZ 0.22.0 computes diagnostics on unthinned post-warm-up arrays shaped
-`(chain, draw)`, both pooled across starts and separately within each start.
-Chain means are not used as a substitute for the underlying samples.
-
-- **Rank-normalized split R-hat** compares variation within and across split
-  chains after rank normalization, including a folded diagnostic sensitive to
-  scale differences. The default target is below 1.01.
-- **Bulk, tail and mean ESS** estimate how much independent-sample information
-  remains after autocorrelation. Tail ESS uses the 5% and 95% quantiles.
-  Mean ESS is distinct from bulk ESS. The minimum is the larger of 400 and
-  100 times the number of chains.
-- **MCSE of the mean** estimates Monte Carlo uncertainty in the mean, in the
-  original units. The default body-tilt and SL-tilt targets are 0.5 degrees.
-  MCSE is neither the physical standard deviation nor model uncertainty.
-
-Fewer than two chains or 100 retained draws, constant chains and nonfinite
-observations produce unavailable diagnostics and explicit flags. Passing the
-gate also requires at least four chains. High R-hat, insufficient ESS and
-excessive MCSE are flagged. `checks_passed` is not proof of convergence.
-The fixed 2000/500 cycle settings do not imply equilibrium.
-
-Multi-chain export writes `V903_MultiChain_chains.csv`,
-`V903_MultiChain_diagnostics.csv`, `V903_MultiChain_metadata.json` and
-`V903_MultiChain_trajectories.npz`. The NPZ retains every cycle, including
-warm-up, and final states. Metadata records the warm-up slice and sampler/model
-settings. Body and SL tilts remain on separate PDF figures. The final notebook
-cell re-exports `multi_bundle` with its recorded settings without rerunning MC.
-
-Methods: [Vehtari et al. (2021)](https://arxiv.org/abs/1903.08008),
-[ArviZ R-hat](https://python.arviz.org/en/v0.22.0/api/generated/arviz.rhat.html),
-[ESS](https://python.arviz.org/en/v0.22.0/api/generated/arviz.ess.html), and
-[MCSE](https://python.arviz.org/en/v0.22.0/api/generated/arviz.mcse.html).
-
-## Short Validation
-
-```bash
-python _v903cells/build.py
 python -m unittest discover -s tests -v
+python scripts/vdw_convergence.py
+# cluster ensemble
+python scripts/run_chains.py configs/pilot_relax.json outputs/pilot_relax --workers 4
+python scripts/pilot_tuning.py outputs/pilot_relax outputs/pilot_tuning --tag round1
+python scripts/pilot_tuning.py outputs/pilot_relax outputs/pilot_tuning --tag round2 --factors 4,8,16,32,64
+python scripts/make_v2_sources.py outputs/production_v1_energy_hole outputs/v2_sources
+python scripts/run_chains.py configs/production.json outputs/production --workers 16
+python scripts/analyze.py outputs/production --equil 1000
+# rigid-lattice ensemble and annealing
+python scripts/pilot_tuning_lattice.py configs/lattice_production.json outputs/pilot_tuning_lattice
+python scripts/run_chains.py configs/lattice_production.json outputs/lattice_production --workers 16
+python scripts/run_chains.py configs/lattice_production_cont.json outputs/lattice_production_cont --workers 16
+python scripts/run_chains.py configs/lattice_anneal.json outputs/lattice_anneal --workers 8
+python scripts/analyze.py outputs/lattice_production_cont --equil 0
+python scripts/analyze_anneal.py configs/lattice_anneal.json outputs/lattice_anneal
+python scripts/lattice_per_chain.py outputs/lattice_per_chain
+python scripts/plot_lattice_tilt.py outputs/lattice_production_cont 0 outputs/lattice_anneal outputs/lattice_production_cont
+python scripts/twist_window.py outputs/twist_window
 ```
 
-The tests use short N27 chains and synthetic diagnostic fixtures. They do not
-run the 2000-cycle experiment or the full multi-chain/pilot configurations.
+Run from the repository root with `PYTHONPATH=.`.  Runs are resumable: a
+chain is complete only when its `complete.json` exists.  The config of the
+archived first cluster run is in
+`outputs/production_v1_energy_hole/manifest.json`.
 
-## Full Experiment with Checkpoints
+## Layout
 
-Run the default single chain and all 20 multi-start chains in separate processes:
+- `v904/`: model, vdW evaluator, geometry and constraints, sampler,
+  annealing, diagnostics
+- `tests/`: 31 unit tests
+- `scripts/`: runners, pilots, analysis and figures
+- `configs/`: settings of every run (`configs/README.md` lists them)
+- `outputs/`: data, reports and figures of every run
+- `docs/`: step-by-step explanations in Chinese
+  - `MC_WORKFLOW_ZH.md`: MC workflow and checks
+  - `RIGID_LATTICE_ZH.md`: why the cluster dissolves; rigid-lattice results
+- `reference/`: V9.03 energy code for the regression test
 
-```bash
-python scripts/run_sampling_experiment.py --output outputs/my_full_run --cycles 2000 --equil 500 --workers 4
-```
+## Limitations
 
-Use a new output directory to preserve previous results. Each completed chain
-is saved immediately as NPZ and JSON, together with a progress log and energy
-consistency checks. A manifest records the source hashes, base commit and chain
-configuration. Resume an interrupted run with the same command plus `--resume`.
-Resume requires identical source files and cycle settings and skips completed
-chains. The final report pools only the multi-start chains, excluding the
-separate single-chain reproduction.
-
-All chains use the sampling parameters in the first source cell. This command
-does not run the magnetic-sweep optimization pilot. Reported ESS/second uses the sum of per-chain
-sampling times, including warm-up. Elapsed wall time is recorded separately.
-
-The historical [2000-cycle experiment](outputs/sampling_2000cycles_20260915/RESULTS_ZH.md)
-contains one default single-chain reproduction and 12 multi-start chains, each
-with 500 warm-up cycles. All trajectories and estimated diagnostics are finite.
-None of the 12 pooled observables passes the predefined diagnostic checks.
-Body and SL tilt rank R-hat values are 1.830 and 1.807, with bulk ESS of 17.4
-and 17.7. Expanded starts retain substantial drift after warm-up. These outputs
-document incomplete mixing and must not be interpreted as equilibrium estimates.
-That run used five sweeps, a 0.30 rad magnetic step and no collective scaling.
-
-## Magnetic Calibration and Longer Validation
-
-The additional compact 40-degree and expanded zero-degree starts separate
-initial tilt from initial spacing. Their structure IDs are appended to preserve
-the existing random streams. ESS checks now require at least the larger of
-400 and 100 times the number of chains. Saved historical results retain their
-original settings and thresholds.
-
-```bash
-python scripts/run_sampling_optimization.py --mode conditional --output outputs/my_magnetic_calibration --cycles 2000 --equil 500 --sweeps 1 5 10 --dip-step-rad 1.6 --workers 4
-python scripts/run_sampling_optimization.py --mode joint --output outputs/my_joint_validation --cycles 4000 --equil 1000 --sweeps 10 --seeds 31 32 33 34 --workers 4
-```
-
-Conditional calibration freezes each of four geometries and uses seeds 11-14
-with random, field-aligned, opposite-field and body-easy-axis magnetic starts.
-It checks individual particles as well as averages. Different frozen geometries
-are diagnosed separately because they define different conditional distributions.
-Only candidates passing all checks are ranked by the worst bulk ESS per second.
-A conditional recommendation is not a proven optimum for joint sampling.
-
-The completed pilots tested 0.30, 0.80 and 1.60 rad, each crossed with 1, 5 and
-10 sweeps. Only 1.60 rad with 10 sweeps passed all 232 geometry/variable checks
-in the pilot. Its maximum rank R-hat was 1.0079 and minimum bulk ESS was 583.3.
-The [experiment protocol](outputs/sampling_optimization_20260916/PROTOCOL.md)
-separates tuning from independent conditional and joint validation.
-The independent conditional validation used seeds 21-24 and 4000/1000
-cycles. All 232 checks passed, with maximum rank R-hat 1.0030 and minimum
-bulk ESS 1129.0. These checks apply to the four tested frozen geometries.
-
-The independent joint validation used four structures, seeds 31-34 and the same
-4000/1000 cycle lengths. All 60 pooled and within-start diagnostic rows failed
-at least one predefined check. Pooled body tilt had rank R-hat 1.1915, bulk ESS
-59.2 and MCSE 0.663 degrees. Radius of gyration rose throughout the retained
-windows, with rank R-hat 1.8963. See the
-[full optimization and validation report](outputs/sampling_optimization_20260916/README.md).
-
-Joint center scaling includes the `3*(N-1)*log(scale)` MH volume correction.
-The fixed central position leaves 78 free position coordinates. This proposal
-preserves the existing Cartesian target measure without adding an entropy term
-to the energy. The front-cell position switch disables it. Explicit CLI proposal
-options override the front-cell defaults and are recorded in each run manifest.
-
-Both modes save per-chain checkpoints, source hashes, diagnostics, acceptance
-rates and early/late window means. Add `--resume` to resume the same configuration.
-The joint command retains the existing unconfined position space. Its output
-characterizes finite-run mixing and does not establish unrestricted equilibrium.
-The [Chinese diagnostic guide](docs/MCMC_DIAGNOSTICS_ZH.md) explains why large
-R-hat does not prove that body tilt lacks a stationary distribution and discusses
-the separate normalization problem for the full unbounded position space.
-
-## Rebuilding the Notebook
-
-From the repository root, run:
-
-```bash
-python _v903cells/build.py
-```
-
-## Notes
-
-Ligand chains are not represented explicitly. Their separation and repulsion are incorporated through the effective gap and steric interaction. Nearest-neighbor bond tilt was removed from the latest output because PCA provides the retained global superlattice orientation measure.
-
-Local beta now denotes the directed dipole-to-body-[111] angle, from 0 to 180
-degrees. The previous implementation reported a body-to-field angle under that
-name. Body-SL mismatch now denotes signed body tilt minus SL PCA tilt. The
-actual angle between those axes is retained as a separate trajectory.
-Signed magnetization is recorded alongside the original absolute alignment.
-The central position remains fixed, but the central body can receive local
-rotations. Both mechanical switches now cover global proposals as well.
-
-The magnetic, vdW, steric and configurational-entropy models have not been
-reparameterized. The current cluster model has no explicit finite container.
-Diagnostics do not establish unrestricted assembly equilibrium or justify
-interpreting MC cycles as physical time.
-
-The older PDFs directly under `outputs/` and the Supporting Information document
-describe the historical 16 nm calculation. They have not been regenerated for
-this sampling update, and their old angle labels must be interpreted accordingly.
-The reports under `outputs/sampling_2000cycles_20260915/` use the current angle
-definitions and include the completed single-chain and multi-chain experiment.
+- The vdW integral runs over sharp cubes, following V10, while the steric
+  wall uses rounded cubes.  The D0 core minimum closes the resulting
+  divergence.  At T -> 0, 1-2 kBT of the annealed vdW comes from contacts
+  near D0.
+- The rigid-lattice ensemble conditions on the SL existing.  It says
+  nothing about whether the SL forms.
+- In the rigid lattice, the cubes' internal twist and off-axis tilt
+  relax slowly (tau ~ 1200 cycles) and are reported as intervals, not
+  converged means.
+- MC cycles are not physical time.

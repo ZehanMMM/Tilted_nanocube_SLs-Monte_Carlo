@@ -1,2 +1,0 @@
-# Preserve the exact archived source bytes used by experiment SHA256 manifests.
-outputs/**/source_snapshot/** -text

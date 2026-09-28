@@ -1,0 +1,16 @@
+# Stability: stab_bond36
+4 chains x 2000 cycles; fixed warm-up 1000 cycles; 1000 retained draws per chain, no thinning.
+## Pooled diagnostics (all starts)
+| variable | mean | sd | rhat | ess_bulk | ess_tail | mcse_mean | mcse_batch | tau_int_max | geweke_max_abs | status |
+|---|---|---|---|---|---|---|---|---|---|---|
+| energy_kBT | -555.8 | 8.928 | 1.031 | 155.7 | 452.9 | 0.7159 | n/a | 38.1 | 2.994 | high_rhat,low_ess |
+| vdw_kBT | -3.094 | 0.8694 | 1.047 | 94.25 | 193.4 | 0.08895 | n/a | 93.88 | 2.901 | high_rhat,low_ess |
+| local_beta_deg | 89.32 | 8.202 | 1.021 | 158.5 | 470.1 | 0.6509 | n/a | 28.75 | 1.43 | high_rhat,low_ess,high_mcse |
+| body_tilt_deg | 57.66 | 21.82 | 1.008 | 485 | 659.2 | 1.028 | 0.9254 | 11.5 | 1.639 | high_mcse |
+| body_order | 0.1804 | 0.07477 | 1.017 | 285.3 | 521.8 | 0.004514 | 0.004086 | 14.73 | 2.58 | high_rhat,low_ess |
+| sl_pca_tilt_deg | 13.25 | 7.222 | 1.073 | 34.87 | 110.1 | 1.277 | n/a | 397.8 | 1.962 | high_rhat,low_ess,high_mcse |
+| magnetization | 0.9308 | 0.01326 | 1.004 | 903.7 | 2360 | 0.0004369 | 0.0004245 | 9.189 | 1.448 | passed |
+| min_gap_nm | 1.964 | 0.1779 | 1.005 | 1049 | 1357 | 0.006588 | 0.006032 | 8.974 | 3.778 | passed |
+| rg_nm | 83.56 | 4.882 | 1.752 | 6.139 | 25.62 | 1.973 | n/a | 459.8 | 5.252 | high_rhat,low_ess |
+| n_bonds | 31.41 | 2.492 | 1.068 | 81.27 | 92.8 | 0.2825 | n/a | 209.4 | 2.429 | high_rhat,low_ess |
+

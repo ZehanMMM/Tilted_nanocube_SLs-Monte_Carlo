@@ -1,0 +1,16 @@
+# V9.04 production: 16 chains, converged vdW, Stillinger cluster (bond 30 nm)
+16 chains x 3000 cycles; fixed warm-up 1000 cycles; 2000 retained draws per chain, no thinning.
+## Pooled diagnostics (all starts)
+| variable | mean | sd | rhat | ess_bulk | ess_tail | mcse_mean | mcse_batch | tau_int_max | geweke_max_abs | status |
+|---|---|---|---|---|---|---|---|---|---|---|
+| energy_kBT | -572.8 | 46.51 | 1.24 | 47.06 | 19.44 | 9.116 | n/a | 1078 | 5.686 | high_rhat,low_ess |
+| vdw_kBT | -12.43 | 45.75 | 1.223 | 53.28 | 19.21 | 9.119 | n/a | 1096 | 3.771 | high_rhat,low_ess |
+| local_beta_deg | 90.05 | 7.89 | 1.014 | 1092 | 2473 | 0.2389 | 0.2132 | 38.17 | 2.35 | high_rhat,low_ess |
+| body_tilt_deg | 57.65 | 21.51 | 1.007 | 2910 | 6440 | 0.413 | 0.3941 | 20.12 | 2.232 | passed |
+| body_order | 0.1753 | 0.07332 | 1.01 | 2246 | 3747 | 0.001581 | 0.001575 | 26.46 | 3.31 | passed |
+| sl_pca_tilt_deg | 14.98 | 11.76 | 1.289 | 42.8 | 23.57 | 2.311 | n/a | 1400 | 5.555 | high_rhat,low_ess,high_mcse |
+| magnetization | 0.9288 | 0.01377 | 1.016 | 792.5 | 9317 | 0.0004922 | n/a | 87.32 | 3.549 | high_rhat,low_ess |
+| min_gap_nm | 1.9 | 0.105 | 1.025 | 3767 | 1.166e+04 | 0.002415 | n/a | 41.11 | 2.939 | high_rhat |
+| rg_nm | 61.75 | 4.428 | 1.855 | 23.01 | 27.59 | 0.9319 | n/a | 1649 | 10.21 | high_rhat,low_ess |
+| n_bonds | 29.69 | 2.229 | 1.099 | 112.7 | 290.5 | 0.2092 | n/a | 1050 | 4.248 | high_rhat,low_ess |
+

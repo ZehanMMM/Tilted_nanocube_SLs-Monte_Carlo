@@ -1,0 +1,103 @@
+{
+  "start": "compact_tilted40",
+  "seed": 13,
+  "cycles": 4000,
+  "elapsed_sec": 5223.96669739997,
+  "acceptance": {
+    "trans": 0.5362884615384615,
+    "rot": 0.5995,
+    "dip": 0.26864629629629627,
+    "cotilt": 0.38225,
+    "gamma": 0.6485,
+    "scale": 0.138
+  },
+  "tries": {
+    "trans": 104000,
+    "rot": 108000,
+    "dip": 1080000,
+    "cotilt": 4000,
+    "gamma": 4000,
+    "scale": 4000
+  },
+  "blocked": {
+    "trans": 27102,
+    "rot": 2995,
+    "dip": 0,
+    "cotilt": 0,
+    "gamma": 4,
+    "scale": 1297
+  },
+  "sq_jump": {
+    "trans": 330541.5978102516,
+    "rot": 86521907.98376034,
+    "dip": 95767059.2307835,
+    "cotilt": 33917.307264062336,
+    "gamma": 2604.3110324992604,
+    "scale": 0.0200909886555979
+  },
+  "moves": {
+    "trans_step_nm": 6.4,
+    "rot_step_deg": 128.0,
+    "trans_small_nm": 0.4,
+    "rot_small_deg": 8.0,
+    "small_prob": 0.5,
+    "dip_step_rad": 1.6,
+    "n_mag_sweeps": 10,
+    "cotilt_step_deg": 12.0,
+    "n_cotilt": 1,
+    "gamma_step_deg": 2.0,
+    "n_gamma": 1,
+    "scale_log_step": 0.032,
+    "n_scale": 1
+  },
+  "hamiltonian": {
+    "physical": {
+      "edge_nm": 16.0,
+      "Ms_Apm": 285000.0,
+      "B_T": 0.05,
+      "K_Jpm3": 20000.0,
+      "hamaker_J": 2e-20,
+      "gap_nm": 1.8,
+      "k_stiff_Jpm2": 100000000.0,
+      "roundness_nm": 1.5,
+      "temperature_K": 298.15,
+      "vdw_model": "converged",
+      "inherited_cutoff_nm": 46.2,
+      "vdw_settings": {
+        "q_near": 6,
+        "q_mid": 8,
+        "q_far": 4,
+        "near_L": 0.35,
+        "mid_L": 1.0,
+        "far_pair_L": 2.6,
+        "volume_order": 4,
+        "z_floor_L": 1e-06,
+        "tol_kBT": 1e-05,
+        "temperature_K": 298.15,
+        "max_level": 14,
+        "min_level": 0,
+        "scheme": "hybrid",
+        "eta_geometric": 0.5,
+        "eta_value": 4.0
+      }
+    },
+    "ensemble": {
+      "bond_nm": 30.0,
+      "core_min_nm": 0.165,
+      "enforce_connectivity": true,
+      "enforce_core_exclusion": true
+    },
+    "kT_J": 4.1164049935e-21,
+    "mu_Am2": 1.1673600000000003e-18
+  },
+  "seed_entropy": [
+    13,
+    1
+  ],
+  "spawn_key": [],
+  "max_abs_energy_drift_kBT": 9.35733946211984e-14,
+  "quadrature_max_level_hits": 0,
+  "exact_core_distance_checks": 12187,
+  "final_allowed": true,
+  "all_finite": true
+}

@@ -1,0 +1,46 @@
+test_single_moment_reaches_the_grid_minimum (test_lattice.Annealing.test_single_moment_reaches_the_grid_minimum) ... ok
+test_cotilt_samples_the_same_distribution (test_lattice.LatticeKernels.test_cotilt_samples_the_same_distribution) ... <repo>\v904\vdw.py:282: RuntimeWarning: divide by zero encountered in divide
+  tol_I = tol_J / (self._prefactor * np.maximum(np.abs(cos), 1e-12))
+ok
+test_lattice_rotation_samples_the_pair_axis_distribution (test_lattice.LatticeKernels.test_lattice_rotation_samples_the_pair_axis_distribution) ... ok
+test_compact_lattice_cycles (test_lattice.RigidBookkeeping.test_compact_lattice_cycles) ... ok
+test_connectivity (test_model.Constraints.test_connectivity) ... ok
+test_minimum_core_separation (test_model.Constraints.test_minimum_core_separation)
+Cores closer than D0 = 0.165 nm are excluded, farther ones allowed. ... ok
+test_overlap_agrees_with_exact_distance (test_model.Constraints.test_overlap_agrees_with_exact_distance) ... ok
+test_all_moves_keep_bookkeeping_exact (test_model.ExactDeltas.test_all_moves_keep_bookkeeping_exact) ... ok
+test_cotilt_leaves_vdw_and_steric_unchanged (test_model.ExactDeltas.test_cotilt_leaves_vdw_and_steric_unchanged) ... ok
+test_gamma_axis_is_preserved (test_model.ExactDeltas.test_gamma_axis_is_preserved)
+Reverse twist uses the same axis, so the proposal is symmetric. ... ok
+test_every_term (test_model.MatchesV903.test_every_term) ... ok
+test_initial_structures_identical (test_model.MatchesV903.test_initial_structures_identical) ... ok
+test_steric_gap (test_model.MatchesV903.test_steric_gap) ... ok
+test_ar1_tau_and_mcse (test_sampler.Diagnostics.test_ar1_tau_and_mcse)
+AR(1) with phi: tau = (1 + phi) / (1 - phi) exactly. ... ok
+test_single_moment_against_sphere_quadrature (test_sampler.DipoleKernel.test_single_moment_against_sphere_quadrature) ... ok
+test_haar_uniform_when_energy_is_flat (test_sampler.RotationKernel.test_haar_uniform_when_energy_is_flat)
+K = 0, no field on the body: rotations must be Haar, E[cos w] = -1/2. ... ok
+test_missing_jacobian_is_detected (test_sampler.ScaleJacobian.test_missing_jacobian_is_detected) ... ok
+test_with_jacobian_matches_quadrature (test_sampler.ScaleJacobian.test_with_jacobian_matches_quadrature) ... ok
+test_reference_is_usable (test_sampler.TranslationKernel.test_reference_is_usable) ... ok
+test_translation_matches_importance_sampling (test_sampler.TranslationKernel.test_translation_matches_importance_sampling) ... ok
+test_translation_plus_scale_matches (test_sampler.TranslationKernel.test_translation_plus_scale_matches) ... ok
+test_inner_integral_matches_quadrature (test_vdw.ClosedForm.test_inner_integral_matches_quadrature) ... ok
+test_cube_symmetry (test_vdw.Invariances.test_cube_symmetry) ... ok
+test_exchange (test_vdw.Invariances.test_exchange) ... ok
+test_far_field (test_vdw.Invariances.test_far_field) ... ok
+test_rigid_motion (test_vdw.Invariances.test_rigid_motion) ... ok
+test_matches_octree_volume_integral (test_vdw.NearContact.test_matches_octree_volume_integral)
+Independent method: value-blind octree refinement of the volume form. ... ok
+test_value_only_refinement_is_not_trusted (test_vdw.NearContact.test_value_only_refinement_is_not_trusted)
+A narrow spike could fool a value-only test; the default hybrid rule ... ok
+test_fast_matches_tight_reference (test_vdw.VoxelLimit.test_fast_matches_tight_reference) ... ok
+test_rotated_pair_voxel_convergence (test_vdw.VoxelLimit.test_rotated_pair_voxel_convergence)
+Arbitrary orientation: n^3 midpoint sums converge onto the fast value. ... ok
+test_v10_numbers (test_vdw.VoxelLimit.test_v10_numbers)
+n = 4 reproduces the inherited V10 face value; the limit is the audit value. ... ok
+
+----------------------------------------------------------------------
+Ran 31 tests in 699.867s
+
+OK

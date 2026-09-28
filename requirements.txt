@@ -1,6 +1,4 @@
 numpy
 scipy
 matplotlib
-jupyter
-tqdm
 arviz==0.22.0

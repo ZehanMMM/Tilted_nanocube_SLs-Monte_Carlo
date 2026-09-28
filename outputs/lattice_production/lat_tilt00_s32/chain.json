@@ -1,0 +1,111 @@
+{
+  "start": "lat_tilt00",
+  "seed": 32,
+  "cycles": 2000,
+  "elapsed_sec": 4503.524439000059,
+  "acceptance": {
+    "trans": NaN,
+    "rot": 0.27475925925925926,
+    "dip": 0.23601111111111112,
+    "cotilt": 0.193,
+    "gamma": 0.145,
+    "scale": NaN,
+    "latrot": NaN
+  },
+  "tries": {
+    "trans": 0,
+    "rot": 54000,
+    "dip": 540000,
+    "cotilt": 2000,
+    "gamma": 2000,
+    "scale": 0,
+    "latrot": 0
+  },
+  "blocked": {
+    "trans": 0,
+    "rot": 0,
+    "dip": 0,
+    "cotilt": 0,
+    "gamma": 0,
+    "scale": 0,
+    "latrot": 0
+  },
+  "sq_jump": {
+    "trans": 0.0,
+    "rot": 5508.381112106544,
+    "dip": 29440604.880239554,
+    "cotilt": 12254.606699871134,
+    "gamma": 300.57780743997773,
+    "scale": 0.0,
+    "latrot": 0.0
+  },
+  "moves": {
+    "trans_step_nm": 0.1,
+    "rot_step_deg": 4.0,
+    "trans_small_nm": 0.0,
+    "rot_small_deg": 1.0,
+    "small_prob": 0.5,
+    "dip_step_rad": 1.6,
+    "n_mag_sweeps": 10,
+    "cotilt_step_deg": 24.0,
+    "n_cotilt": 1,
+    "gamma_step_deg": 4.0,
+    "n_gamma": 1,
+    "scale_log_step": 0.002,
+    "n_scale": 1,
+    "latrot_step_deg": 0.125,
+    "n_latrot": 0,
+    "cotilt_recompute": false
+  },
+  "hamiltonian": {
+    "physical": {
+      "edge_nm": 16.0,
+      "Ms_Apm": 285000.0,
+      "B_T": 0.05,
+      "K_Jpm3": 20000.0,
+      "hamaker_J": 2e-20,
+      "gap_nm": 1.8,
+      "k_stiff_Jpm2": 100000000.0,
+      "roundness_nm": 1.5,
+      "temperature_K": 298.15,
+      "vdw_model": "converged",
+      "inherited_cutoff_nm": 46.2,
+      "vdw_settings": {
+        "q_near": 5,
+        "q_mid": 8,
+        "q_far": 4,
+        "near_L": 0.35,
+        "mid_L": 1.0,
+        "far_pair_L": 2.6,
+        "volume_order": 4,
+        "z_floor_L": 1e-06,
+        "tol_kBT": 0.0001,
+        "temperature_K": 298.15,
+        "max_level": 14,
+        "min_level": 0,
+        "scheme": "hybrid",
+        "eta_geometric": 0.5,
+        "eta_value": 8.0
+      }
+    },
+    "ensemble": {
+      "bond_nm": 30.0,
+      "core_min_nm": 0.165,
+      "enforce_connectivity": false,
+      "enforce_core_exclusion": true
+    },
+    "kT_J": 4.1164049935e-21,
+    "mu_Am2": 1.1673600000000003e-18
+  },
+  "seed_entropy": [
+    32,
+    0
+  ],
+  "spawn_key": [],
+  "max_abs_energy_drift_kBT": 4.864693639566863e-09,
+  "quadrature_max_level_hits": 0,
+  "exact_core_distance_checks": 0,
+  "final_allowed": true,
+  "all_finite": true,
+  "schedule": "lattice"
+}

@@ -1,0 +1,7 @@
+1/300 cycles, 0.0 min, ETA 4.4 min
+50/300 cycles, 1.0 min, ETA 5.0 min
+100/300 cycles, 2.0 min, ETA 4.0 min
+150/300 cycles, 3.0 min, ETA 3.0 min
+200/300 cycles, 4.0 min, ETA 2.0 min
+250/300 cycles, 5.0 min, ETA 1.0 min
+300/300 cycles, 6.0 min, ETA 0.0 min

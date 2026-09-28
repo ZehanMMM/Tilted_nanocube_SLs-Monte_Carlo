@@ -1,0 +1,55 @@
+{
+  "description": "Rigid-lattice ensemble (SL assumed to exist; colloidal states excluded): positions fixed on the experimental 3x3x3 rhombohedral lattice (a = 21 nm, alpha = 74.2 deg); sampled at 298.15 K: every cube's body orientation, every moment, and the lattice orientation as a whole (co-tilt with the bodies). 500 G, converged vdW with the D0 core minimum. Steps from outputs/pilot_tuning_lattice (MSJD ladder), frozen. Lattice rotation under fixed bodies is off (n_latrot = 0): its MSJD is 1e5 x smaller than co-tilt's because the steric cages lock lattice and bodies; co-tilt + single-cube rotations still reach every (G, Q). Warm-up 500 fixed in advance.",
+  "schedule": "lattice",
+  "structures": {
+    "lat_tilt00": {
+      "tilt_deg": 0.0
+    },
+    "lat_tilt20": {
+      "tilt_deg": 20.0
+    },
+    "lat_tilt40": {
+      "tilt_deg": 40.0
+    },
+    "lat_tilt60": {
+      "tilt_deg": 60.0
+    }
+  },
+  "starts": [
+    "lat_tilt00",
+    "lat_tilt20",
+    "lat_tilt40",
+    "lat_tilt60"
+  ],
+  "seeds": [
+    31,
+    32,
+    33,
+    34
+  ],
+  "cycles": 2000,
+  "snapshot_every": 50,
+  "drift_every": 250,
+  "ensemble": {
+    "enforce_connectivity": false
+  },
+  "physics": {
+    "vdw_settings": {
+      "q_near": 5,
+      "tol_kBT": 0.0001,
+      "eta_value": 8.0
+    }
+  },
+  "moves": {
+    "rot_step_deg": 4.0,
+    "rot_small_deg": 1.0,
+    "small_prob": 0.5,
+    "latrot_step_deg": 0.125,
+    "n_latrot": 0,
+    "cotilt_step_deg": 24.0,
+    "gamma_step_deg": 4.0,
+    "cotilt_recompute": false,
+    "dip_step_rad": 1.6,
+    "n_mag_sweeps": 10
+  }
+}

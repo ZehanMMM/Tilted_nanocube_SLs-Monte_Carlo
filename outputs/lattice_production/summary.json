@@ -1,0 +1,140 @@
+{
+  "equil": 500,
+  "cycles": 2000,
+  "chains": 16,
+  "pooled": {
+    "energy_kBT": {
+      "mean": -660.2668076561322,
+      "mcse": 0.07399866005567911,
+      "rhat": 1.0056177553843586,
+      "ess_bulk": 6405.014413293642,
+      "status": "passed"
+    },
+    "vdw_kBT": {
+      "mean": -46.25280652636775,
+      "mcse": 0.1672220393401888,
+      "rhat": 1.6611869244145705,
+      "ess_bulk": 25.651369504175918,
+      "status": "high_rhat,low_ess"
+    },
+    "dipole_kBT": {
+      "mean": -85.12609131872425,
+      "mcse": 0.02057380046152405,
+      "rhat": 1.0003555839538616,
+      "ess_bulk": 17609.242645495924,
+      "status": "passed"
+    },
+    "local_beta_deg": {
+      "mean": 13.225566747137524,
+      "mcse": 0.015868231161235646,
+      "rhat": 1.004780653760505,
+      "ess_bulk": 9751.7104175073,
+      "status": "passed"
+    },
+    "body_tilt_deg": {
+      "mean": 4.700179492221502,
+      "mcse": 0.09915174653511716,
+      "rhat": 1.0284378342272946,
+      "ess_bulk": 594.0740983833941,
+      "status": "high_rhat,low_ess"
+    },
+    "body_order": {
+      "mean": 0.9981372377693781,
+      "mcse": 0.0003916968578863565,
+      "rhat": 2.1203752766427293,
+      "ess_bulk": 20.932832929680508,
+      "status": "high_rhat,low_ess"
+    },
+    "sl_pca_tilt_deg": {
+      "mean": 4.705806502603446,
+      "mcse": 0.10146134331105086,
+      "rhat": 1.02946481490776,
+      "ess_bulk": 575.7206543452751,
+      "status": "high_rhat,low_ess"
+    },
+    "body_sl_difference_deg": {
+      "mean": -0.005627010381943302,
+      "mcse": 0.010362544535690913,
+      "rhat": 1.2538977084267506,
+      "ess_bulk": 426.2255085685917,
+      "status": "high_rhat,low_ess"
+    },
+    "body_sl_axis_angle_deg": {
+      "mean": 0.24772225793513641,
+      "mcse": 0.032186880141813624,
+      "rhat": 1.66308312530948,
+      "ess_bulk": 25.422103372760915,
+      "status": "high_rhat,low_ess"
+    },
+    "magnetization": {
+      "mean": 0.9629510848261771,
+      "mcse": 0.00011363044458632631,
+      "rhat": 1.004074107994159,
+      "ess_bulk": 6580.902211559464,
+      "status": "passed"
+    },
+    "abs_muB": {
+      "mean": 0.9629524644865333,
+      "mcse": 0.00011372889067119239,
+      "rhat": 1.0040881544632891,
+      "ess_bulk": 6569.964902262496,
+      "status": "passed"
+    },
+    "min_gap_nm": {
+      "mean": 1.8012220008293305,
+      "mcse": 5.310530594098889e-05,
+      "rhat": 1.0183239279184537,
+      "ess_bulk": 839.850734403897,
+      "status": "high_rhat,low_ess"
+    },
+    "p05_gap_nm": {
+      "mean": 1.8295218477150452,
+      "mcse": 0.0016541871291631133,
+      "rhat": 1.3440847216551215,
+      "ess_bulk": 36.68638404346735,
+      "status": "high_rhat,low_ess"
+    },
+    "sl_axis_tilt_deg": {
+      "mean": 4.705806502603447,
+      "mcse": 0.10146134331105074,
+      "rhat": 1.02946481490776,
+      "ess_bulk": 575.7206543452751,
+      "status": "high_rhat,low_ess"
+    },
+    "body_rotation_deg": {
+      "mean": 14.458214777619617,
+      "mcse": 0.5769990881728493,
+      "rhat": 1.8394481088569872,
+      "ess_bulk": 23.307164476626607,
+      "status": "high_rhat,low_ess"
+    },
+    "body_rotation_max_deg": {
+      "mean": 26.462365087232122,
+      "mcse": 0.5077559818732132,
+      "rhat": 1.4003988635239768,
+      "ess_bulk": 34.254182638609095,
+      "status": "high_rhat,low_ess"
+    },
+    "body_lattice_angle_deg": {
+      "mean": 2.8044446605444815,
+      "mcse": 0.3030537564925237,
+      "rhat": 2.1731471353441028,
+      "ess_bulk": 20.637472770338224,
+      "status": "high_rhat,low_ess"
+    },
+    "anisotropy_kBT": {
+      "mean": -160.23321739179787,
+      "mcse": 0.030099475070488952,
+      "rhat": 1.003822104602434,
+      "ess_bulk": 11494.76307332471,
+      "status": "passed"
+    },
+    "zeeman_kBT": {
+      "mean": -368.65888638579287,
+      "mcse": 0.04350259719399945,
+      "rhat": 1.004074107994159,
+      "ess_bulk": 6580.902211559458,
+      "status": "passed"
+    }
+  }
+}

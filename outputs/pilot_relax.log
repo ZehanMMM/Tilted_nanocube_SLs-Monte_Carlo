@@ -1,0 +1,27 @@
+4 chains to run in outputs\pilot_relax
+concurrent.futures.process._RemoteTraceback: 
+"""
+Traceback (most recent call last):
+  File "<python>\Lib\concurrent\futures\process.py", line 254, in _process_worker
+    r = call_item.fn(*call_item.args, **call_item.kwargs)
+  File "<repo>\scripts\run_chains.py", line 104, in run_one
+    seed_entropy=int(seq.entropy), spawn_key=list(seq.spawn_key),
+                 ~~~^^^^^^^^^^^^^
+TypeError: int() argument must be a string, a bytes-like object or a real number, not 'list'
+"""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "<repo>\scripts\run_chains.py", line 143, in <module>
+    main()
+    ~~~~^^
+  File "<repo>\scripts\run_chains.py", line 137, in main
+    print(f"done {f.result()} after {(time.time() - t0) / 60:.1f} min", flush=True)
+                  ~~~~~~~~^^
+  File "<python>\Lib\concurrent\futures\_base.py", line 449, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "<python>\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+TypeError: int() argument must be a string, a bytes-like object or a real number, not 'list'

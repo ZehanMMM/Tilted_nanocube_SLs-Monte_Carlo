@@ -1,0 +1,16 @@
+# Rigid-lattice ensemble at 298 K: 16 chains x 2000 cycles (4 SL tilts x 4 seeds)
+16 chains x 2000 cycles; fixed warm-up 500 cycles; 1500 retained draws per chain, no thinning.
+## Pooled diagnostics (all starts)
+| variable | mean | sd | rhat | ess_bulk | ess_tail | mcse_mean | mcse_batch | tau_int_max | geweke_max_abs | status |
+|---|---|---|---|---|---|---|---|---|---|---|
+| energy_kBT | -660.3 | 5.943 | 1.006 | 6405 | 1.586e+04 | 0.074 | 0.06281 | 4.006 | 3.024 | passed |
+| vdw_kBT | -46.25 | 0.8264 | 1.661 | 25.65 | 48.8 | 0.1672 | n/a | 1267 | 12.19 | high_rhat,low_ess |
+| dipole_kBT | -85.13 | 2.734 | 1 | 1.761e+04 | 2.141e+04 | 0.02057 | 0.02033 | 1.555 | 2.696 | passed |
+| local_beta_deg | 13.23 | 1.564 | 1.005 | 9752 | 1.721e+04 | 0.01587 | 0.01481 | 3.944 | 2.909 | passed |
+| body_tilt_deg | 4.7 | 2.416 | 1.028 | 594.1 | 1021 | 0.09915 | n/a | 345.9 | 4.966 | high_rhat,low_ess |
+| magnetization | 0.963 | 0.009372 | 1.004 | 6581 | 1.551e+04 | 0.0001136 | 0.0001022 | 4.757 | 2.662 | passed |
+| sl_axis_tilt_deg | 4.706 | 2.424 | 1.029 | 575.7 | 1012 | 0.1015 | n/a | 337.5 | 5.006 | high_rhat,low_ess |
+| body_rotation_deg | 14.46 | 2.739 | 1.839 | 23.31 | 49.54 | 0.577 | n/a | 1214 | 14.48 | high_rhat,low_ess |
+| body_lattice_angle_deg | 2.804 | 1.367 | 2.173 | 20.64 | 30.95 | 0.3031 | n/a | 1396 | 8.1 | high_rhat,low_ess |
+| anisotropy_kBT | -160.2 | 3.229 | 1.004 | 1.149e+04 | 1.83e+04 | 0.0301 | 0.02852 | 2.843 | 2.921 | passed |
+

@@ -1,0 +1,91 @@
+{
+  "config": {
+    "description": "Production v2: target with the D0 = 0.165 nm sharp-core minimum and the hybrid (geometric + value) vdW refinement. Continues the 16 chains of production v1 (outputs/production_v1_energy_hole, 3000 cycles from the four lattice starts; v1 is invalid as a sample of this target and serves only as relaxation) from outputs/v2_sources with fresh sampling seeds. Warm-up 1000 cycles fixed in advance.",
+    "starts": [
+      "compact_aligned",
+      "compact_tilted40",
+      "expanded_aligned",
+      "expanded_tilted"
+    ],
+    "seeds": [
+      11,
+      12,
+      13,
+      14
+    ],
+    "cycles": 4000,
+    "snapshot_every": 100,
+    "drift_every": 250,
+    "moves": {
+      "trans_step_nm": 6.4,
+      "trans_small_nm": 0.4,
+      "rot_step_deg": 128.0,
+      "rot_small_deg": 8.0,
+      "small_prob": 0.5,
+      "cotilt_step_deg": 12.0,
+      "gamma_step_deg": 2.0,
+      "scale_log_step": 0.032,
+      "dip_step_rad": 1.6,
+      "n_mag_sweeps": 10
+    },
+    "init_from": "outputs/v2_sources",
+    "init_seed_offset": 10
+  },
+  "source_sha256": "f9484f4262fd97efaf91016a9113b9ca0455be5bc20ea8be377533a7739de005",
+  "moves": {
+    "trans_step_nm": 6.4,
+    "rot_step_deg": 128.0,
+    "trans_small_nm": 0.4,
+    "rot_small_deg": 8.0,
+    "small_prob": 0.5,
+    "dip_step_rad": 1.6,
+    "n_mag_sweeps": 10,
+    "cotilt_step_deg": 12.0,
+    "n_cotilt": 1,
+    "gamma_step_deg": 2.0,
+    "n_gamma": 1,
+    "scale_log_step": 0.032,
+    "n_scale": 1
+  },
+  "hamiltonian": {
+    "physical": {
+      "edge_nm": 16.0,
+      "Ms_Apm": 285000.0,
+      "B_T": 0.05,
+      "K_Jpm3": 20000.0,
+      "hamaker_J": 2e-20,
+      "gap_nm": 1.8,
+      "k_stiff_Jpm2": 100000000.0,
+      "roundness_nm": 1.5,
+      "temperature_K": 298.15,
+      "vdw_model": "converged",
+      "inherited_cutoff_nm": 46.2,
+      "vdw_settings": {
+        "q_near": 6,
+        "q_mid": 8,
+        "q_far": 4,
+        "near_L": 0.35,
+        "mid_L": 1.0,
+        "far_pair_L": 2.6,
+        "volume_order": 4,
+        "z_floor_L": 1e-06,
+        "tol_kBT": 1e-05,
+        "temperature_K": 298.15,
+        "max_level": 14,
+        "min_level": 0,
+        "scheme": "hybrid",
+        "eta_geometric": 0.5,
+        "eta_value": 4.0
+      }
+    },
+    "ensemble": {
+      "bond_nm": 30.0,
+      "core_min_nm": 0.165,
+      "enforce_connectivity": true,
+      "enforce_core_exclusion": true
+    },
+    "kT_J": 4.1164049935e-21,
+    "mu_Am2": 1.1673600000000003e-18
+  },
+  "started": "2026-09-25 23:21:48"
+}

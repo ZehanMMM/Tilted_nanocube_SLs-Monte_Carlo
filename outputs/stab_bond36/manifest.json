@@ -1,0 +1,90 @@
+{
+  "config": {
+    "description": "Target change: cluster bond 30 -> 36 nm. Tests whether the connectivity constraint is active.",
+    "cycles": 2000,
+    "moves": {
+      "trans_step_nm": 6.4,
+      "trans_small_nm": 0.4,
+      "rot_step_deg": 128.0,
+      "rot_small_deg": 8.0,
+      "small_prob": 0.5,
+      "cotilt_step_deg": 12.0,
+      "gamma_step_deg": 2.0,
+      "scale_log_step": 0.032,
+      "dip_step_rad": 1.6,
+      "n_mag_sweeps": 10
+    },
+    "ensemble": {
+      "bond_nm": 36.0
+    },
+    "starts": [
+      "compact_aligned",
+      "expanded_tilted"
+    ],
+    "seeds": [
+      21,
+      22
+    ],
+    "init_from": "outputs/production",
+    "init_seed_offset": 10,
+    "snapshot_every": 100,
+    "drift_every": 250
+  },
+  "source_sha256": "72d9c9877d03f701144df699d5284da915ab16c83a28c0e3e140bbb12f4115e0",
+  "moves": {
+    "trans_step_nm": 6.4,
+    "rot_step_deg": 128.0,
+    "trans_small_nm": 0.4,
+    "rot_small_deg": 8.0,
+    "small_prob": 0.5,
+    "dip_step_rad": 1.6,
+    "n_mag_sweeps": 10,
+    "cotilt_step_deg": 12.0,
+    "n_cotilt": 1,
+    "gamma_step_deg": 2.0,
+    "n_gamma": 1,
+    "scale_log_step": 0.032,
+    "n_scale": 1
+  },
+  "hamiltonian": {
+    "physical": {
+      "edge_nm": 16.0,
+      "Ms_Apm": 285000.0,
+      "B_T": 0.05,
+      "K_Jpm3": 20000.0,
+      "hamaker_J": 2e-20,
+      "gap_nm": 1.8,
+      "k_stiff_Jpm2": 100000000.0,
+      "roundness_nm": 1.5,
+      "temperature_K": 298.15,
+      "vdw_model": "converged",
+      "inherited_cutoff_nm": 46.2,
+      "vdw_settings": {
+        "q_near": 6,
+        "q_mid": 8,
+        "q_far": 4,
+        "near_L": 0.35,
+        "mid_L": 1.0,
+        "far_pair_L": 2.6,
+        "volume_order": 4,
+        "z_floor_L": 1e-06,
+        "tol_kBT": 1e-05,
+        "temperature_K": 298.15,
+        "max_level": 14,
+        "min_level": 0,
+        "scheme": "hybrid",
+        "eta_geometric": 0.5,
+        "eta_value": 4.0
+      }
+    },
+    "ensemble": {
+      "bond_nm": 36.0,
+      "core_min_nm": 0.165,
+      "enforce_connectivity": true,
+      "enforce_core_exclusion": true
+    },
+    "kT_J": 4.1164049935e-21,
+    "mu_Am2": 1.1673600000000003e-18
+  },
+  "started": "2026-09-26 15:46:39"
+}

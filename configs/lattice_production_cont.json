@@ -1,0 +1,57 @@
+{
+  "description": "Continuation of outputs/lattice_production (2000 cycles, all treated as warm-up: the collective cube twist about [111] relaxes over ~1000 cycles, longer than the 500-cycle warm-up fixed for that run). Same target and frozen steps, fresh sampling seeds 51-54 continuing seeds 31-34. Warm-up for this run fixed at 0 in advance.",
+  "schedule": "lattice",
+  "structures": {
+    "lat_tilt00": {
+      "tilt_deg": 0.0
+    },
+    "lat_tilt20": {
+      "tilt_deg": 20.0
+    },
+    "lat_tilt40": {
+      "tilt_deg": 40.0
+    },
+    "lat_tilt60": {
+      "tilt_deg": 60.0
+    }
+  },
+  "starts": [
+    "lat_tilt00",
+    "lat_tilt20",
+    "lat_tilt40",
+    "lat_tilt60"
+  ],
+  "seeds": [
+    51,
+    52,
+    53,
+    54
+  ],
+  "cycles": 1500,
+  "snapshot_every": 50,
+  "drift_every": 250,
+  "ensemble": {
+    "enforce_connectivity": false
+  },
+  "physics": {
+    "vdw_settings": {
+      "q_near": 5,
+      "tol_kBT": 0.0001,
+      "eta_value": 8.0
+    }
+  },
+  "moves": {
+    "rot_step_deg": 4.0,
+    "rot_small_deg": 1.0,
+    "small_prob": 0.5,
+    "latrot_step_deg": 0.125,
+    "n_latrot": 0,
+    "cotilt_step_deg": 24.0,
+    "gamma_step_deg": 4.0,
+    "cotilt_recompute": false,
+    "dip_step_rad": 1.6,
+    "n_mag_sweeps": 10
+  },
+  "init_from": "outputs/lattice_production",
+  "init_seed_offset": 20
+}

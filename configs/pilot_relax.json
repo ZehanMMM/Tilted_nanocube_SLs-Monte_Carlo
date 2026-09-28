@@ -1,0 +1,8 @@
+{
+  "description": "Pilot 1: relax each start with the provisional V9.03 steps. Samples discarded; only final states reused.",
+  "starts": ["compact_aligned", "compact_tilted40", "expanded_aligned", "expanded_tilted"],
+  "seeds": [101],
+  "cycles": 300,
+  "snapshot_every": 50,
+  "drift_every": 100
+}

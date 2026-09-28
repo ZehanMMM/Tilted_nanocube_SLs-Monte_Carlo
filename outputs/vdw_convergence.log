@@ -1,0 +1,63 @@
+B_V903_strongest_pair 4 0.0s
+B_V903_strongest_pair 8 0.0s
+B_V903_strongest_pair 12 0.1s
+B_V903_strongest_pair 16 0.6s
+B_V903_strongest_pair 24 6.2s
+B_V903_strongest_pair 32 34.9s
+B_tilted_core_2nm 4 0.0s
+B_tilted_core_2nm 8 0.0s
+B_tilted_core_2nm 12 0.1s
+B_tilted_core_2nm 16 0.5s
+B_tilted_core_2nm 24 6.0s
+B_tilted_core_2nm 32 33.4s
+B_tilted_core_0.9nm 4 0.0s
+B_tilted_core_0.9nm 8 0.0s
+B_tilted_core_0.9nm 12 0.1s
+B_tilted_core_0.9nm 16 0.5s
+B_tilted_core_0.9nm 24 5.8s
+B_tilted_core_0.9nm 32 33.1s
+compact_aligned 4 0.1s
+compact_aligned 8 3.3s
+compact_aligned 12 36.4s
+compact_aligned 16 183.9s
+expanded_tilted 4 0.1s
+expanded_tilted 8 3.2s
+expanded_tilted 12 37.0s
+expanded_tilted 16 260.8s
+{
+  "face_1.8nm": {
+    "fast_J": -3.0853165007192185e-20,
+    "fast_kBT": -7.495172378789454,
+    "n4_J": -1.0592805974527833e-20,
+    "ratio_fast_over_n4": 2.9126527080155875
+  },
+  "face_3.0nm": {
+    "fast_J": -9.196434340805548e-21,
+    "fast_kBT": -2.2340936704058896,
+    "n4_J": -4.8834370285786125e-21,
+    "ratio_fast_over_n4": 1.8831888866359128
+  },
+  "B_V903_strongest_pair": {
+    "fast_kBT": -0.7368392950432043,
+    "core_distance_nm": 4.23529540499013,
+    "inherited_n4_floor_kBT": -0.49160596541863105
+  },
+  "B_tilted_core_2nm": {
+    "fast_kBT": -1.1673604960883301,
+    "core_distance_nm": 2.082713613023982,
+    "inherited_n4_floor_kBT": -0.6969730975195101
+  },
+  "B_tilted_core_0.9nm": {
+    "fast_kBT": -0.9122890549193499,
+    "core_distance_nm": 0.9961867689690239,
+    "inherited_n4_floor_kBT": -0.49786744143671136
+  },
+  "cluster_compact_aligned": {
+    "fast_kBT": -47.64028066692253,
+    "inherited_V903_kBT": -32.429860291355986
+  },
+  "cluster_expanded_tilted": {
+    "fast_kBT": -19.865184864425803,
+    "inherited_V903_kBT": -15.461369044626377
+  }
+}

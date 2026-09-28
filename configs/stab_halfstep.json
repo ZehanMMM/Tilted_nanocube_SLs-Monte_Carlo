@@ -1,0 +1,28 @@
+{
+  "description": "Sampler-only change: every mechanical and collective step halved. Same target, so means must agree with production within MCSE.",
+  "cycles": 1500,
+  "moves": {
+    "trans_step_nm": 3.2,
+    "trans_small_nm": 0.2,
+    "rot_step_deg": 64.0,
+    "rot_small_deg": 4.0,
+    "small_prob": 0.5,
+    "cotilt_step_deg": 6.0,
+    "gamma_step_deg": 1.0,
+    "scale_log_step": 0.016,
+    "dip_step_rad": 1.6,
+    "n_mag_sweeps": 10
+  },
+  "starts": [
+    "compact_aligned",
+    "expanded_tilted"
+  ],
+  "seeds": [
+    21,
+    22
+  ],
+  "init_from": "outputs/production",
+  "init_seed_offset": 10,
+  "snapshot_every": 100,
+  "drift_every": 250
+}

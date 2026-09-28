@@ -1,0 +1,16 @@
+# Stability: V9.03 inherited 4^3 vdW
+4 chains x 2000 cycles; fixed warm-up 1000 cycles; 1000 retained draws per chain, no thinning.
+## Pooled diagnostics (all starts)
+| variable | mean | sd | rhat | ess_bulk | ess_tail | mcse_mean | mcse_batch | tau_int_max | geweke_max_abs | status |
+|---|---|---|---|---|---|---|---|---|---|---|
+| energy_kBT | -571.4 | 9.597 | 1.115 | 23.89 | 67.92 | 1.963 | n/a | 215.5 | 4.152 | high_rhat,low_ess |
+| vdw_kBT | -3.392 | 0.5474 | 1.096 | 45.05 | 188.5 | 0.07789 | n/a | 268.3 | 2.935 | high_rhat,low_ess |
+| local_beta_deg | 89.44 | 8.077 | 1.041 | 134.3 | 401.9 | 0.6919 | n/a | 69.55 | 4.747 | high_rhat,low_ess,high_mcse |
+| body_tilt_deg | 56.45 | 21.87 | 1.007 | 328 | 1068 | 1.245 | 1.156 | 13.49 | 0.6059 | low_ess,high_mcse |
+| body_order | 0.1729 | 0.07425 | 1.011 | 310.5 | 393.5 | 0.004368 | 0.004077 | 16.44 | 1.72 | high_rhat,low_ess |
+| sl_pca_tilt_deg | 9.481 | 4.717 | 1.06 | 54.51 | 85.72 | 0.6505 | n/a | 123.9 | 1.866 | high_rhat,low_ess,high_mcse |
+| magnetization | 0.9324 | 0.01317 | 1.016 | 348 | 1726 | 0.0006785 | 0.0004414 | 6.769 | 2.92 | high_rhat,low_ess |
+| min_gap_nm | 1.91 | 0.114 | 1.003 | 1156 | 1920 | 0.003498 | 0.00326 | 4.803 | 1.977 | passed |
+| rg_nm | 75.54 | 8.941 | 2.422 | 4.911 | 13.46 | 4.351 | n/a | 886 | 10.71 | high_rhat,low_ess |
+| n_bonds | 29.71 | 2.083 | 1.105 | 30.2 | 76.53 | 0.3792 | n/a | 30.15 | 2.568 | high_rhat,low_ess |
+

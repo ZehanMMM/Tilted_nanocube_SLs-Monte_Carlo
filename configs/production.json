@@ -1,0 +1,32 @@
+{
+  "description": "Production v2: target with the D0 = 0.165 nm sharp-core minimum and the hybrid (geometric + value) vdW refinement. Continues the 16 chains of production v1 (outputs/production_v1_energy_hole, 3000 cycles from the four lattice starts; v1 is invalid as a sample of this target and serves only as relaxation) from outputs/v2_sources with fresh sampling seeds. Warm-up 1000 cycles fixed in advance.",
+  "starts": [
+    "compact_aligned",
+    "compact_tilted40",
+    "expanded_aligned",
+    "expanded_tilted"
+  ],
+  "seeds": [
+    11,
+    12,
+    13,
+    14
+  ],
+  "cycles": 4000,
+  "snapshot_every": 100,
+  "drift_every": 250,
+  "moves": {
+    "trans_step_nm": 6.4,
+    "trans_small_nm": 0.4,
+    "rot_step_deg": 128.0,
+    "rot_small_deg": 8.0,
+    "small_prob": 0.5,
+    "cotilt_step_deg": 12.0,
+    "gamma_step_deg": 2.0,
+    "scale_log_step": 0.032,
+    "dip_step_rad": 1.6,
+    "n_mag_sweeps": 10
+  },
+  "init_from": "outputs/v2_sources",
+  "init_seed_offset": 10
+}

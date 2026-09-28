@@ -1,0 +1,98 @@
+{
+  "start": "expanded_aligned",
+  "seed": 1,
+  "cycles": 3000,
+  "elapsed_sec": 3261.7687932000263,
+  "acceptance": {
+    "trans": 0.5376923076923077,
+    "rot": 0.5985185185185186,
+    "dip": 0.2719259259259259,
+    "cotilt": 0.399,
+    "gamma": 0.6696666666666666,
+    "scale": 0.15066666666666667
+  },
+  "tries": {
+    "trans": 78000,
+    "rot": 81000,
+    "dip": 810000,
+    "cotilt": 3000,
+    "gamma": 3000,
+    "scale": 3000
+  },
+  "blocked": {
+    "trans": 19670,
+    "rot": 2086,
+    "dip": 0,
+    "cotilt": 0,
+    "gamma": 0,
+    "scale": 975
+  },
+  "sq_jump": {
+    "trans": 253272.10921784784,
+    "rot": 63116948.493527435,
+    "dip": 75434653.74938466,
+    "cotilt": 26952.633556228102,
+    "gamma": 2010.270303148345,
+    "scale": 0.017005325742506745
+  },
+  "moves": {
+    "trans_step_nm": 6.4,
+    "rot_step_deg": 128.0,
+    "trans_small_nm": 0.4,
+    "rot_small_deg": 8.0,
+    "small_prob": 0.5,
+    "dip_step_rad": 1.6,
+    "n_mag_sweeps": 10,
+    "cotilt_step_deg": 12.0,
+    "n_cotilt": 1,
+    "gamma_step_deg": 2.0,
+    "n_gamma": 1,
+    "scale_log_step": 0.032,
+    "n_scale": 1
+  },
+  "hamiltonian": {
+    "physical": {
+      "edge_nm": 16.0,
+      "Ms_Apm": 285000.0,
+      "B_T": 0.05,
+      "K_Jpm3": 20000.0,
+      "hamaker_J": 2e-20,
+      "gap_nm": 1.8,
+      "k_stiff_Jpm2": 100000000.0,
+      "roundness_nm": 1.5,
+      "temperature_K": 298.15,
+      "vdw_model": "converged",
+      "inherited_cutoff_nm": 46.2,
+      "vdw_settings": {
+        "q_near": 6,
+        "q_mid": 8,
+        "q_far": 4,
+        "near_L": 0.35,
+        "mid_L": 1.0,
+        "far_pair_L": 2.6,
+        "volume_order": 4,
+        "z_floor_L": 1e-06,
+        "tol_kBT": 1e-05,
+        "temperature_K": 298.15,
+        "max_level": 12,
+        "min_level": 0,
+        "scheme": "children"
+      }
+    },
+    "ensemble": {
+      "bond_nm": 30.0,
+      "enforce_connectivity": true,
+      "enforce_core_exclusion": true
+    },
+    "kT_J": 4.1164049935e-21,
+    "mu_Am2": 1.1673600000000003e-18
+  },
+  "seed_entropy": [
+    1,
+    2
+  ],
+  "spawn_key": [],
+  "max_abs_energy_drift_kBT": 9.35733946211984e-14,
+  "final_allowed": true,
+  "all_finite": true
+}

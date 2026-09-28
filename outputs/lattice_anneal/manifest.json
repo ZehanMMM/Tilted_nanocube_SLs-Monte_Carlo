@@ -1,0 +1,120 @@
+{
+  "config": {
+    "description": "Simulated annealing of the TOTAL energy in the same rigid-lattice ensemble: kT multiplied by a geometric schedule 5 -> 0.002 over 1500 cycles, steps adapted every 20 cycles toward 30 % acceptance (allowed: optimisation, not sampling). 4 starting SL tilts x 2 seeds = 8 independent restarts; the best state of each is kept.",
+    "schedule": "lattice",
+    "structures": {
+      "lat_tilt00": {
+        "tilt_deg": 0.0
+      },
+      "lat_tilt20": {
+        "tilt_deg": 20.0
+      },
+      "lat_tilt40": {
+        "tilt_deg": 40.0
+      },
+      "lat_tilt60": {
+        "tilt_deg": 60.0
+      }
+    },
+    "starts": [
+      "lat_tilt00",
+      "lat_tilt20",
+      "lat_tilt40",
+      "lat_tilt60"
+    ],
+    "seeds": [
+      41,
+      42
+    ],
+    "cycles": 1500,
+    "snapshot_every": 50,
+    "drift_every": 250,
+    "ensemble": {
+      "enforce_connectivity": false
+    },
+    "physics": {
+      "vdw_settings": {
+        "q_near": 5,
+        "tol_kBT": 0.0001,
+        "eta_value": 8.0
+      }
+    },
+    "moves": {
+      "rot_step_deg": 4.0,
+      "rot_small_deg": 1.0,
+      "small_prob": 0.5,
+      "latrot_step_deg": 0.125,
+      "n_latrot": 1,
+      "cotilt_step_deg": 24.0,
+      "gamma_step_deg": 4.0,
+      "cotilt_recompute": false,
+      "dip_step_rad": 1.6,
+      "n_mag_sweeps": 10
+    },
+    "anneal": {
+      "t_start": 5.0,
+      "t_end": 0.002,
+      "adapt_every": 20
+    }
+  },
+  "source_sha256": "29282bbba884d87b400e6e26a98adaaf7f38f3d655f33a9ce0e76c924f01a8d1",
+  "moves": {
+    "trans_step_nm": 0.1,
+    "rot_step_deg": 4.0,
+    "trans_small_nm": 0.0,
+    "rot_small_deg": 1.0,
+    "small_prob": 0.5,
+    "dip_step_rad": 1.6,
+    "n_mag_sweeps": 10,
+    "cotilt_step_deg": 24.0,
+    "n_cotilt": 1,
+    "gamma_step_deg": 4.0,
+    "n_gamma": 1,
+    "scale_log_step": 0.002,
+    "n_scale": 1,
+    "latrot_step_deg": 0.125,
+    "n_latrot": 1,
+    "cotilt_recompute": false
+  },
+  "hamiltonian": {
+    "physical": {
+      "edge_nm": 16.0,
+      "Ms_Apm": 285000.0,
+      "B_T": 0.05,
+      "K_Jpm3": 20000.0,
+      "hamaker_J": 2e-20,
+      "gap_nm": 1.8,
+      "k_stiff_Jpm2": 100000000.0,
+      "roundness_nm": 1.5,
+      "temperature_K": 298.15,
+      "vdw_model": "converged",
+      "inherited_cutoff_nm": 46.2,
+      "vdw_settings": {
+        "q_near": 5,
+        "q_mid": 8,
+        "q_far": 4,
+        "near_L": 0.35,
+        "mid_L": 1.0,
+        "far_pair_L": 2.6,
+        "volume_order": 4,
+        "z_floor_L": 1e-06,
+        "tol_kBT": 0.0001,
+        "temperature_K": 298.15,
+        "max_level": 14,
+        "min_level": 0,
+        "scheme": "hybrid",
+        "eta_geometric": 0.5,
+        "eta_value": 8.0
+      }
+    },
+    "ensemble": {
+      "bond_nm": 30.0,
+      "core_min_nm": 0.165,
+      "enforce_connectivity": false,
+      "enforce_core_exclusion": true
+    },
+    "kT_J": 4.1164049935e-21,
+    "mu_Am2": 1.1673600000000003e-18
+  },
+  "started": "2026-09-28 03:00:54"
+}
